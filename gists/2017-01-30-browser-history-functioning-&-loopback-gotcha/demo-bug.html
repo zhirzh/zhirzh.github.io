@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" type="text/css" href="index.css">
+  </head>
+
+  <body>
+    <div>
+      <a href="#/home">Home</a>
+      <a href="#/page-1">Page 1</a>
+      <a href="#/page-2">Page 2</a>
+      <a href="#/page-3">Page 3</a>
+      <a href="#/page-4">Page 4</a>
+      <a href="#/page-5">Page 5</a>
+    </div>
+
+    <div>
+      <button id="backBtn">BACK</button>
+      <button id="forwardBtn">FORWARD</button>
+    </div>
+
+    <div>
+      <button id="wishlistBtn">WISHLIST</button>
+    </div>
+
+    <div>
+      <button id="loginBtn">LOGIN</button>
+    </div>
+
+    <hr />
+
+    <div id="historyStructures">
+      <div id="historyStructure"></div>
+    </div>
+  </body>
+
+
+  <script src="index.js"></script>
+
+  <script>
+    var loggedIn = false;
+
+    function loginPrompt() {
+      setTimeout(() => {
+        var username;
+        var password;
+
+        username = prompt('Username', 'FOO');
+        if (username) {
+          password = prompt('Password', 'BAAR');
+        }
+
+        if (username && password) {
+          loggedIn = true;
+        }
+
+        loginRedirect();
+      }, 0);
+    }
+
+    function loginRedirect() {
+      var backUrl = location.hash.match(/ret=(.*)/)[1];
+      history.pushState({}, '', backUrl);
+    }
+
+    wishlistBtn.onclick = function() {
+      if (loggedIn) {
+        history.pushState({}, '', '#/wishlist');
+      } else {
+        alert('To add item to wishlist, please login first.');
+
+        history.pushState({}, '', `#/login?ret=${location.hash}`);
+      }
+    }
+
+    loginBtn.onclick = function() {
+      history.pushState({}, '', `#/login?ret=${location.hash}`);
+    }
+
+    var oldLocationHash = '';
+    (function server() {
+      if (oldLocationHash !== location.hash) {
+        oldLocationHash = location.hash;
+        if (location.hash.startsWith('#/login')) {
+          if (loggedIn) {
+            loginRedirect();
+          } else {
+            loginPrompt();
+          }
+        }
+      }
+
+      setTimeout(server, 100);
+    })();
+  </script>
+</html>
