@@ -1,0 +1,69 @@
+<style>
+  #demo-final {
+    display: table; margin: auto;
+  }
+
+  svg {
+    border: 1px solid silver;
+  }
+
+  #bolt path {
+    stroke-dasharray: 1000px;
+    stroke-dashoffset: 0;
+
+    animation-name: bolt-backward;
+    animation-duration: 2s;
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+  }
+  #bolt:hover path {
+    animation-name: bolt-forward;
+  }
+  @keyframes bolt-forward {
+    0% {
+      stroke-dashoffset: 0;
+      stroke: green;
+    }
+    49% {
+      stroke: green;
+    }
+    51% {
+      stroke: red;
+    }
+    100% {
+      stroke-dashoffset: 2000px;
+      stroke: red;
+    }
+  }
+  @keyframes bolt-backward {
+    0% {
+      stroke-dashoffset: 2000px;
+      stroke: red;
+    }
+    49% {
+      stroke: red;
+    }
+    51% {
+      stroke: green;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      stroke: green;
+    }
+  }
+</style>
+<div id="demo-final">
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    id="bolt"
+    width="225px"
+    height="128px"
+  >
+    <path
+      d="M32,72h32v56l32,-72h-32v-56Z"
+      stroke="black"
+      transform="matrix(1 0 0 1 50 0)"
+      fill="none"
+    />
+  </svg>
+</div>
