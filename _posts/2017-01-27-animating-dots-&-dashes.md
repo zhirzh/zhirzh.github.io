@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Animating Dots & Dashes
-data: 2017-01-27
+date: 2017-01-27
 ---
 
 Using dashed-dotted-lines to create *sweet and simple* animations.

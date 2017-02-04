@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Timing Controls
-data: 2016-10-11
+date: 2016-10-11
 ---
 
 As you may know, JavaScript follows the Event-driven programming paradigm.

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Timing Controls - Part 3
-data: 2016-10-20
+date: 2016-10-20
 ---
 
 *This is small one.*

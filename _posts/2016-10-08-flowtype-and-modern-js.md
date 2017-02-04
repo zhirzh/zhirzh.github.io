@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Flowtype and modern JS
-data: 2016-10-08
+date: 2016-10-08
 ---
 
 As we all know, JavaScript is *loose typed* - variables are declared without a type.

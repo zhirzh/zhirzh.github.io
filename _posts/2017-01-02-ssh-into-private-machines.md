@@ -1,7 +1,7 @@
 ---
 layout: post
 title: SSH Into Private Machines
-data: 2017-01-02
+date: 2017-01-02
 ---
 
 We can use SSH to access remote machines that are:

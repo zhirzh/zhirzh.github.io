@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Browser history functioning and loopback gotcha
-data: 2017-01-27
+date: 2017-01-27
 ---
 
 According to MDN,
