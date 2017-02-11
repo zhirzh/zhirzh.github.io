@@ -203,13 +203,15 @@ function throttle(fn, delta, context) {
 }
 ```
 
-And here's a [tiny demo] of all three techniques.
+Here's a [demo] of all three techniques.
 
-In the next, and final, post of the series, we will see a native implementation of Throttle that works well with browsers.
+---
 
-Stay tuned.
+## The End
+
+In the final post, we will see an implementation of Throttle that works well with browsers.
 
 [previous post]: {% post_url 2016-10-11-timing-controls %} "Timing Controls"
 [higher order functions]: https://en.wikipedia.org/wiki/Higher-order_function
 [`arguments` object]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
-[tiny demo]: https://jsfiddle.net/zhirzh/4oac34m0
+[demo]: https://jsfiddle.net/zhirzh/4oac34m0

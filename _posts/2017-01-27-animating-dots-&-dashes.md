@@ -497,7 +497,7 @@ We will use combinations of these two parameters to create animations
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="computer"
-    width="33%"
+    width="30%"
     height="150px"
   >
     <path
@@ -510,7 +510,7 @@ We will use combinations of these two parameters to create animations
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="lock"
-    width="33%"
+    width="30%"
     height="150px"
   >
     <path
@@ -523,7 +523,7 @@ We will use combinations of these two parameters to create animations
   <svg
     xmlns="http://www.w3.org/2000/svg"
     id="bolt"
-    width="33%"
+    width="30%"
     height="150px"
   >
     <path
@@ -543,7 +543,3 @@ You can view them here on github:
 * [Computer](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/computer.svg.html)
 * [Lock](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/lock.svg.html)
 * [Bolt](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/bolt.svg.html)
-
----
-
-## The End

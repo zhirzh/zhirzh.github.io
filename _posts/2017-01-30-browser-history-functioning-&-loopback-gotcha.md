@@ -85,7 +85,7 @@ And a new branch will emerge, with the previous entries.
 
 *Note:* Use the `BACK` and `FORWARD` buttons provided in the demo and **not** the browser's buttons.
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo.html#/home" frameborder="0" class="demo"></iframe>
+<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
 
 ---
 <br />
@@ -113,7 +113,7 @@ Still with me? Sounds confusing? How 'bout a demo, eh?
 In the demo below, try cancelling the login prompt and then going back.
 You will find it *IMPOSSIBLE*.
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-bug.html#/home" frameborder="0" class="demo"></iframe>
+<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-bug.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
 
 ---
 
@@ -129,7 +129,7 @@ The solution is used [here].
     }
 ```
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-fixed.html#/home" frameborder="0" class="demo"></iframe>
+<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-fixed.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
 
 ---
 <br />

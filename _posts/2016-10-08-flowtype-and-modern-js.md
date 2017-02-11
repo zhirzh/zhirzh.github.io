@@ -147,7 +147,7 @@ Now we can start adding flow annotations to our code and the next time we start 
 
 ---
 
-## Conclusion
+## The End
 
 Type checking is really useful in large softwares, and Flow is a remarkable tool that allows type checks.
 Being able to us it with babel and webpack is a win-win!

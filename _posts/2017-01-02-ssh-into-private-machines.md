@@ -81,8 +81,6 @@ $ ssh -p 2222 user_b@localhost
 ## The End
 
 And there you have it.
-Now you can too access machines that were otherwise inaccessible to you.
-
-In some later post, I will use this method to gain free internet.
+Now you too can access machines otherwise inaccessible to you.
 
 [stackexchange answer]: http://unix.stackexchange.com/a/118650/73879/
