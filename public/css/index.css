@@ -1,3 +1,9 @@
+img.center-block {
+  display: table;
+  margin: auto;
+  width: 100%;
+}
+
 iframe.demo {
   padding: 10px;
   width: 100%;
