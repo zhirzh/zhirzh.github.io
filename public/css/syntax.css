@@ -63,3 +63,6 @@
 .css .o,
 .css .o + .nt,
 .css .nt + .nt { color: #999; }
+
+.highlight .gd { border: none; padding: 2px 0; } /* Generic.Deleted */
+.highlight .gi { border: none; padding: 2px 0; } /* Generic.Deleted */
