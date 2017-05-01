@@ -18,15 +18,15 @@ Let's work out an example.
 Suppose there is a function that must only be passed boolean arguments (`true` and `false`), we need to manually check if the arguments are booleans and were not coerced into.
 
 ```js
-var foo = true;
-console.log(typeof foo);              // boolean
-console.log(foo.constructor);         // Boolean
-console.log(foo instanceof Boolean);  // false
+  var foo = true;
+  console.log(typeof foo);              // boolean
+  console.log(foo.constructor);         // Boolean
+  console.log(foo instanceof Boolean);  // false
 
-var bar = new Boolean(true);
-console.log(typeof bar);              // object
-console.log(bar.constructor);         // Boolean
-console.log(bar instanceof Boolean);  // true
+  var bar = new Boolean(true);
+  console.log(typeof bar);              // object
+  console.log(bar.constructor);         // Boolean
+  console.log(bar instanceof Boolean);  // true
 ```
 
 As we can see, we need to check if the passed argument is either a primitive boolean or an instance of class Boolean.
@@ -60,9 +60,9 @@ And when I say smart, I mean really clever.
 Here's a flow example:
 
 ```js
-// @flow
-var foo:string = 'hello world';
-foo = 123;
+  // @flow
+  var foo:string = 'hello world';
+  foo = 123;
 ```
 
 In the example above, flow will point out the obvious error of assigning a `number` value to a `string` type variable.
@@ -72,11 +72,11 @@ Flow recognises JS idioms and very dynamic code.
 And even without type annotations, it can figure out some problems in our code.
 
 ```js
-// @flow
-function foo(x) {
-  return x * 10;
-}
-foo('Hello, world!');
+  // @flow
+  function foo(x) {
+    return x * 10;
+  }
+  foo('Hello, world!');
 ```
 
 Here, flow understands that the operation performed and the data type provided are incompatible and so, will produce error.
@@ -98,45 +98,42 @@ As you can judge by the name, it is meant to glue together flow, babel and webpa
 
 ### Usage
 
-#### 1.
-Install dependencies
+#### 1. Install dependencies
 
 ```sh
-# Install FBWP
-npm i -D flow-babel-webpack-plugin
+  # Install FBWP
+  npm i -D flow-babel-webpack-plugin
 ```
 
-#### 2.
- Setup babel and flow
+#### 2. Setup babel and flow
 ```sh
-# setup .flowconfig
-./node_modules/.bin/flow init  or flow init
+  # setup .flowconfig
+  ./node_modules/.bin/flow init  or flow init
 
-# .babelrc file
-{
-  ...
-  "plugins" : [
+  # .babelrc file
+  {
     ...
-    "transform-flow-comments"
-  ]
-}
+    "plugins" : [
+      ...
+      "transform-flow-comments"
+    ]
+  }
 ```
 
-#### 3.
-Setup webpack config
+#### 3. Setup webpack config
 
 ```js
-// webpack.config.js file
+  // webpack.config.js file
 
-var FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
+  var FlowBabelWebpackPlugin = require('flow-babel-webpack-plugin');
 
-module.exports = {
-  ...
-  plugins: [
+  module.exports = {
     ...
-    new FlowBabelWebpackPlugin(),
-  ],
-}
+    plugins: [
+      ...
+      new FlowBabelWebpackPlugin(),
+    ],
+  }
 ```
 
 And that's it!

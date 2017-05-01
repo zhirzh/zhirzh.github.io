@@ -66,4 +66,4 @@ The code is available [here].
 [another post]: {% post_url 2016-10-11-timing-controls %} "Timing Controls"
 [`requestAnimationFrame`]: https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
 [high resolution timestamp]: https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp
-[here]: https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2016-10-20-timing-controls-3/timing-controls.js
+[here]: https://codepen.io/zhirzh/pen/gWWKeE?editors=0011

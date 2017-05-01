@@ -540,6 +540,6 @@ We will use combinations of these two parameters to create animations
 The code for the final demos are a bit bulky to display here.
 You can view them here on github:
 
-* [Computer](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/computer.svg.html)
-* [Lock](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/lock.svg.html)
-* [Bolt](https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-01-27-animating-dots-&-dashes/bolt.svg.html)
+* [Computer](https://codepen.io/zhirzh/pen/Pmmaag?editors=1000)
+* [Lock](https://codepen.io/zhirzh/pen/xddzJp?editors=1000)
+* [Bolt](https://codepen.io/zhirzh/pen/dWWKjj?editors=1000)

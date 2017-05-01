@@ -88,10 +88,10 @@ Below is the code for a simple generator implementation.
 Once the termination condition is reached, the generator will return (`yield`) an object with its `done` property set to `true`.
 
 ```js
-  function generatorFactory() {
+  function generator() {
     var count = 0;
 
-    function generator() {
+    function iter() {
       if (count === 10) {
         return {
           value: undefined,
@@ -107,20 +107,20 @@ Once the termination condition is reached, the generator will return (`yield`) a
       };
     }
 
-    return generator;
+    return iter;
   }
 
 
   // test
-  var generator = generatorFactory();
+  var iter = generator();
 
-  console.log(generator()); // { value: 1, done: false }
-  console.log(generator()); // { value: 2, done: false }
+  console.log(iter()); // { value: 1, done: false }
+  console.log(iter()); // { value: 2, done: false }
 
-  var foo = generator();
+  var foo = iter();
   while (foo.done === false) {
     console.log(foo.value);
-    foo = generator();
+    foo = iter();
   }
   // 3
   // 4
@@ -131,8 +131,8 @@ Once the termination condition is reached, the generator will return (`yield`) a
   // 9
   // 10
 
-  console.log(generator()); // { value: undefined, done: true }
-  console.log(generator()); // { value: undefined, done: true }
+  console.log(iter()); // { value: undefined, done: true }
+  console.log(iter()); // { value: undefined, done: true }
 ```
 
 Now that we have a starting point, let's upgrade this simple factory.
@@ -150,10 +150,10 @@ Now we can use `for...of` for looping over the yielded values.
 *Note: The explicitly looping approach (`while`, `for`, etc.) are still valid.*
 
 ```diff
-  function generatorFactory() {
+  function generator() {
     var count = 0;
 
-    function generator() {
+    function iter() {
       if (count === 10) {
         return {
           value: undefined,
@@ -175,15 +175,15 @@ Now we can use `for...of` for looping over the yielded values.
 +     };
 +   }
 
-    return generator;
+    return iter;
   }
 
 
   // test
-  var generator = generatorFactory();
+  var iter = generator();
 
-  console.log(generator()); // { value: 1, done: false }
-  console.log(generator()); // { value: 2, done: false }
+  console.log(iter()); // { value: 1, done: false }
+  console.log(iter()); // { value: 2, done: false }
 
 - var foo = generator();
 - while (foo.done === false) {
@@ -202,8 +202,8 @@ Now we can use `for...of` for looping over the yielded values.
   // 9
   // 10
 
-  console.log(generator()); // { value: undefined, done: true }
-  console.log(generator()); // { value: undefined, done: true }
+  console.log(iter()); // { value: undefined, done: true }
+  console.log(iter()); // { value: undefined, done: true }
 ```
 
 ---
@@ -216,10 +216,10 @@ It is better if we implement a `.next()` method.
 We will add a property `.next` and set its value to the generator function and replace the ambiguous `generator()` calls with `generator.next()`.
 
 ```diff
-  function generatorFactory() {
+  function generator() {
     var count = 0;
 
-    function generator() {
+    function iter() {
       if (count === 10) {
         return {
           value: undefined,
@@ -236,24 +236,24 @@ We will add a property `.next` and set its value to the generator function and r
     }
 
 +   generator.next = generator;
-    generator[Symbol.iterator] = function() {
+    iter[Symbol.iterator] = function() {
 -     return {
 -       next: generator,
 -     };
 +     return this; // `this` === `generator`
     }
 
-    return generator;
+    return iter;
   }
 
 
   // test
-  var generator = generatorFactory();
+  var iter = generator();
 
-  console.log(generator.next()); // { value: 1, done: false }
-  console.log(generator.next()); // { value: 2, done: false }
+  console.log(iter.next()); // { value: 1, done: false }
+  console.log(iter.next()); // { value: 2, done: false }
 
-  for (var i of generator) {
+  for (var i of iter) {
     console.log(i);
   }
   // 3
@@ -265,8 +265,8 @@ We will add a property `.next` and set its value to the generator function and r
   // 9
   // 10
 
-  console.log(generator.next()); // { value: undefined, done: true }
-  console.log(generator.next()); // { value: undefined, done: true }
+  console.log(iter.next()); // { value: undefined, done: true }
+  console.log(iter.next()); // { value: undefined, done: true }
 ```
 
 ---
@@ -285,10 +285,10 @@ So let's replace it with a plain old JS object.
 We do that and this is what we'll get.
 
 ```js
-  function generatorFactory() {
+  function generator() {
     var count = 0;
 
-    var generator = {
+    var iter = {
       next: function next() {
         if (count === 10) {
           return {
@@ -310,7 +310,7 @@ We do that and this is what we'll get.
       },
     };
 
-    return  generator;
+    return  iter;
   }
 ```
 
@@ -348,11 +348,10 @@ Please go checkout the project and try out their "sandbox", where you can fiddle
 In the end I would say that generators are a really powerful pattern to have in a language, especially one which is concurrent (not parallel) like JS.
 
 It's a good thing to have a native implementation, since in all likelihood, in some edge-case scenario, the native might outperform the generic approaches I mentioned.
-
-PS: In contrast to our final code, here's what the new generator syntax approach will look like:
+Here's what the new generator syntax approach will look like:
 
 ```js
-  function * generatorFactory() {
+  function * generator() {
     var count = 0;
 
     while (count < 10) {
@@ -363,7 +362,10 @@ PS: In contrast to our final code, here's what the new generator syntax approach
   }
 ```
 
+PS: If you want to test the old way of generators, here's [a codepen just for you].
+
 [MDN]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Statements/function*#Description
 [iterator protocol]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Iteration_protocols#The_iterator_protocol
 [plain old JS object]: https://en.wikipedia.org/wiki/Plain_old_Java_object
 [regenerator]: https://facebook.github.io/regenerator/
+[a codepen just for you]: https://codepen.io/zhirzh/pen/XRRYLz?editors=0012

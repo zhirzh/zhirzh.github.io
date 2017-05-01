@@ -223,4 +223,6 @@ window.onkeydown = immediatedLog;
 In this post, we have explored the most common techniques used as timing functions.
 Although this post was long, it still lacks a solid demo.
 
-In the next post, we will improve the code to have a more API-ish interface and look at the problems that might arise with these simple implementaions.
+In the [next part], we will improve the code to have a more API-ish interface and look at the problems that might arise with these simple implementaions.
+
+[next part]: {% post_url 2016-10-18-timing-controls-2 %} "Timing Controls"
