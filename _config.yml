@@ -13,9 +13,11 @@ paginate:            5
 
 # About/contact
 author:
-  name:              Mark Otto
-  url:               https://twitter.com/mdo
-  email:             markdotto@gmail.com
+  name:              Shirsh Zibbu
+  email:             zibbu.shirsh@gmail.com
+  email2:            f2013450@pilani.bits-pilani.ac.in
+  github:            zhirzh
+  resume:            resume
 
 # Custom vars
 version:             1.0.0
