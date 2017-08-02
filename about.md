@@ -3,28 +3,26 @@ layout: page
 title: About
 ---
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
+My name is
+<i title="&#x283;i&#x2D0;r&#x283; z&#x26A;bbu&#x2D0;">
+  Shirsh Zibbu.
+</i>
+Currently in BITS Pilani college, I am pursuing a double major in Biology and Mechanical. But my heart belongs to computers.
 
-In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
+I'm attracted to many things, but web development lies in the centre of it all. Websites, web scraping, simple server setups, and many more things that give me an excuse to learn something new and find some fun problems to solve.
 
-There are currently two themes built on Poole:
+Lately, I have tried my hands on basics of machine learning and data analysis, and have decided to explore the latter further.
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+To keep things short, let's just say that...
 
-Learn more and contribute on [GitHub](https://github.com/poole).
+<img
+  src="{{ site.baseurl }}/public/approximate.gif"
+  title="Demon Cat"
+  alt="I have approximate knowledge of many things"
+  style="width: 90%; margin-left: 5%"
+/>
 
-## Setup
+---
 
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
-
-Thanks for reading!
+## Contact
+You can mail me on *{{ site.author.email }}* (my personal mail) or on *{{ site.author.email2 }}* (my university mail).
