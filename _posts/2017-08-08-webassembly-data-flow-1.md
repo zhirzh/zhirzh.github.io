@@ -116,7 +116,7 @@ compile(src, dst);
 
 ---
 
-## Primitive Atomics 
+## Primitive Atomics
 
 With our workbench setup, we can get started.
 
@@ -187,7 +187,7 @@ loadWebassembly('...')
   .then(() => {
     console.log(wasm.get_lo());   //  0
     console.log(wasm.set_lo(-5)); //  undefined
-    console.log(wasm.get_lo());   // -5 
+    console.log(wasm.get_lo());   // -5
 
     console.log('-'.repeat(10));
 
@@ -214,8 +214,8 @@ Implementing trivial math equations and expressions can leverage from this.
 But real world applications require richer data access and manipulations.
 We will look into primitive arrays in the [next part].
 
-[part 2]: {% post_url 2017-08-13-webassembly-data-flow-2 %}
+[part 2]: {% post_url 2017-08-10-webassembly-data-flow-2 %}
 [just around the corner]: http://www.caniuse.com/#feat=wasm
 [WasmFiddle]: https://wasdk.github.io/WasmFiddle/
 [wasmexplorer-wasm-compiler]: https://www.npmjs.com/package/wasmexplorer-wasm-compiler
-[next part]: {% post_url 2017-08-13-webassembly-data-flow-2 %}
+[next part]: {% post_url 2017-08-10-webassembly-data-flow-2 %}
