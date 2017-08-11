@@ -2,6 +2,7 @@
 layout: post
 title: Browser history functioning and loopback gotcha
 date: 2017-01-27
+tags: histoy-api bug
 ---
 
 According to MDN,

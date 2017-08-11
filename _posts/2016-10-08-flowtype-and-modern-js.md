@@ -2,6 +2,7 @@
 layout: post
 title: Flowtype and modern JS
 date: 2016-10-08
+tags: flow webpack plugin
 ---
 
 As we all know, JavaScript is *loose typed* - variables are declared without a type.

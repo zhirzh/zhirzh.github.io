@@ -2,6 +2,7 @@
 layout: post
 title: Switching to Workbox
 date: 2017-06-25
+tags: service-worker workbox tutorial
 ---
 
 Writing a good, healthy, bug-free service-worker script and its installer script is a pretty hefty task.

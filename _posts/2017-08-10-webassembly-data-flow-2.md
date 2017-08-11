@@ -2,6 +2,7 @@
 layout: post
 title: WebAssembly data flow - Part 2
 date: 2017-08-10
+tags: webassembly tutorial
 ---
 
 In [part 1], we looked at handling data flow for primitive atomics.
@@ -266,7 +267,7 @@ loadWebassembly(...)
 Combining what we covered in [part 1] we can now handle primitives, both atomic and arrays, for immediate and deferred consumption.
 
 We have seen how to getter/setter functions with atomics and why they can't be used with arrays.
-To bypass this, we saw how to access raw memory and read/write directly from/to it. 
+To bypass this, we saw how to access raw memory and read/write directly from/to it.
 
 In the next part, we'll see how to work with user defined data.
 

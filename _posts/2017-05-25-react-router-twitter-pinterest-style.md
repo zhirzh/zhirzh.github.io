@@ -2,6 +2,7 @@
 layout: post
 title: react-router in Twitter and Pinterest style
 date: 2017-05-25
+tags: react react-router tutorial
 ---
 
 Modals are the de facto tool used to show notices and alerts, related content, and the pesky "Please subscribe" requests.

@@ -2,6 +2,7 @@
 layout: post
 title: WebAssembly data flow - Part 1
 date: 2017-08-08
+tags: webassembly tutorial
 ---
 
 WebAssembly support is [just around the corner].

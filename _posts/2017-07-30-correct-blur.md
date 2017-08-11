@@ -2,6 +2,7 @@
 layout: post
 title: The correct blur
 date: 2017-07-30
+tags: canvas webassembly webgl experiment
 ---
 
 In the past week, I learned that the RGB values stored in digital media are not the same as they were recorded.
@@ -25,7 +26,7 @@ Here's the full explanation by [Henry Reich (minutephysics)].
 	></iframe>
 </div>
 
-The gist of the process is to take square-roots of the raw pixels when saving the file and when displaying the stored files, square the stored values (since they were rooted initially). 
+The gist of the process is to take square-roots of the raw pixels when saving the file and when displaying the stored files, square the stored values (since they were rooted initially).
 
 ![]({{site.baseurl}}/img/correct-blur/1.png)
 
@@ -34,7 +35,7 @@ Any transform can yield bad results if applied incorrectly.
 
 ![]({{site.baseurl}}/img/correct-blur/2.png)
 
-Blurring, for instance, is done by replacing each pixel with an *average* of the pixel and the neighboring pixels. 
+Blurring, for instance, is done by replacing each pixel with an *average* of the pixel and the neighboring pixels.
 The averaging must be applied to the raw pixels, not their square-roots.
 
 This means that squaring be done before the kernel convolutions and then take roots before saving the file.
