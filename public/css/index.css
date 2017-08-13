@@ -1,3 +1,8 @@
+img.center {
+  display: table;
+  margin: auto;
+}
+
 img.center-block {
   display: table;
   margin: auto;

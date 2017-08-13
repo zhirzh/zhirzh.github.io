@@ -1,0 +1,45 @@
+<style>
+  @font-face {
+    font-family: "font";
+    src: url("./font.ttf");
+  }
+
+  @font-face {
+    font-family: "font-reverse";
+    src: url("./font-reverse.ttf");
+  }
+
+  @font-face {
+    font-family: "font-reverse-broken";
+    src: url("./font-reverse-broken.ttf");
+  }
+
+  span {
+    font-family: "font";
+  }
+
+  #broken {
+    font-family: "font-reverse-broken";
+  }
+
+  #reverse {
+    font-family: "font-reverse";
+  }
+</style>
+
+<table>
+  <tr>
+    <td>Normal:</td>
+    <td><span>abcdefghijklmnopqrstuvwxyz 1 2 3</span></td>
+  </tr>
+
+  <tr>
+    <td>Reverse (broken):</td>
+    <td><span id="broken">abcdefghijklmnopqrstuvwxyz 1 2 3</span></td>
+  </tr>
+
+  <tr>
+    <td>Reverse:</td>
+    <td><span id="reverse">abcdefghijklmnopqrstuvwxyz 1 2 3</span></td>
+  </tr>
+</table>
