@@ -16,3 +16,35 @@ iframe.demo {
   box-shadow: inset 0 0 20px -2px lightgray;
   border-radius: 4px;
 }
+
+.tag code {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.tag code {
+  background-color: #eee;
+  color: #888;
+}
+
+.tag {
+  margin: 2px 0;
+  display: inline-block;
+}
+
+.tag code::before {
+  content: '#';
+}
+
+.archive-hidden {
+  display: none;
+}
+
+#hash-tag {
+  cursor: pointer;
+  font-size: 0.7em;
+}
+
+#hash-tag:hover * {
+  text-decoration: line-through;
+}

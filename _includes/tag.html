@@ -1,0 +1,7 @@
+{% assign href = href | default: true %}
+
+{% if href == true %}
+  <a href="/archive/#{{ tag | slugify }}" class="tag"><code>{{ tag }}</code></a>
+{% else %}
+  <span class="tag"><code>{{ tag }}</code></span>
+{% endif %}

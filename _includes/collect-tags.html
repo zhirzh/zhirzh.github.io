@@ -1,0 +1,11 @@
+{% assign tags = "" %}
+
+{% for post in site.posts %}
+  {% for tag in post.tags %}
+    {% unless tags contains tag %}
+      {% assign tags = tags | append:tag | append:'|' %}
+    {% endunless %}
+  {% endfor %}
+{% endfor %}
+
+{% assign tags = tags | split:'|' | sort %}
