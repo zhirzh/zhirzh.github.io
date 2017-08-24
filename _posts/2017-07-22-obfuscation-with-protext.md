@@ -2,7 +2,7 @@
 layout: post
 title: Obfuscation with Protext
 date: 2017-07-22
-tags: protext obfuscation package
+tags: experiment obfuscation package
 ---
 
 Obfuscation is the process of making something obscure, unclear, or unintelligible.
