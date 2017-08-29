@@ -48,3 +48,8 @@ iframe.demo {
 #hash-tag:hover * {
   text-decoration: line-through;
 }
+
+pre {
+  overflow-x: auto;
+  white-space: pre;
+}
