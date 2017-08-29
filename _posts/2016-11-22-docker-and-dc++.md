@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Docker and DC++
-date: 2016-11-15
+date: 2016-11-22
 ---
 
 When I first started using [Docker], I was unable to use [LinuxDC++] (my DC++ client).

@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Weird phenomenon in Google Trends for ReactJS and AngularJS
-date: 2016-11-15
+date: 2016-11-10
 ---
 
 [Google Trends] shows and compares how frequent particular terms were searched for in google.
