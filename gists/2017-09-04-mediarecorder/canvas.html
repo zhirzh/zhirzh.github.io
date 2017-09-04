@@ -1,0 +1,100 @@
+<style>
+  canvas {
+    box-shadow: 0 0 10px gray;
+    display: block;
+  }
+</style>
+
+<canvas id="canvas"></canvas>
+
+<button id="startBtn" disabled>START</button>
+
+<button id="pauseBtn" disabled>PAUSE</button>
+<button id="resumeBtn" disabled>RESUME</button>
+
+<button id="stopBtn" disabled>STOP</button>
+
+<script>
+const allChunks = [];
+
+function drawCircle(ctx, x, y) {
+  const xFraction = x / canvas.width;
+  const yFraction = y / canvas.height;
+
+  const r = 255 * (1 - xFraction);
+  const g = 255 * yFraction;
+  const b = 255 * xFraction * (1 - yFraction);
+
+  ctx.fillStyle = `rgba(${r|0}, ${g|0}, ${b|0}, 1)`;
+
+  ctx.beginPath();
+  ctx.arc(x, y, 10, 0, 2 * Math.PI);
+  ctx.fill();
+}
+
+function init() {
+  canvas.width = 360;
+  canvas.height = 270;
+
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = 'white';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  canvas.onmousemove = e => {
+    const { top, left } = canvas.getBoundingClientRect();
+
+    const x = e.clientX - left;
+    const y = e.clientY - top;
+
+    drawCircle(ctx, x, y);
+  };
+
+  canvas.ontouchmove = e => {
+    const { top, left } = canvas.getBoundingClientRect();
+
+    for (var i = 0; i < e.touches.length; i++) {
+      const t = e.touches[i];
+
+      const x = t.clientX - left;
+      const y = t.clientY - top;
+
+      drawCircle(ctx, x, y);
+    }
+  };
+}
+
+function main() {
+  const stream = canvas.captureStream(60); // 60 FPS recording
+
+  const recorder = new MediaRecorder(stream);
+
+  recorder.ondataavailable = e => allChunks.push(e.data);
+
+  pauseBtn.onclick = () => recorder.pause();
+  resumeBtn.onclick = () => recorder.resume();
+  startBtn.onclick = () => recorder.start(10);
+  stopBtn.onclick = () => recorder.stop() || promptDownload();
+
+  pauseBtn.disabled = false;
+  resumeBtn.disabled = false;
+  startBtn.disabled = false;
+  stopBtn.disabled = false;
+}
+
+function promptDownload() {
+  const link = document.createElement('a');
+  link.style.display = 'none';
+
+  const fullBlob = new Blob(allChunks);
+  const downloadUrl = window.URL.createObjectURL(fullBlob);
+  link.href = downloadUrl;
+  link.download = 'media.webm';
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+init();
+main();
+</script>

@@ -1,9 +1,9 @@
-img.center {
+.center {
   display: table;
   margin: auto;
 }
 
-img.center-block {
+.center-block {
   display: table;
   margin: auto;
   width: 100%;
@@ -52,4 +52,8 @@ iframe.demo {
 pre {
   overflow-x: auto;
   white-space: pre;
+}
+
+a code {
+  color: #268bd2;
 }

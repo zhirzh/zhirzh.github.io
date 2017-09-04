@@ -1,0 +1,64 @@
+<style>
+  video {
+    width: 480px;
+    box-shadow: 0 0 10px gray;
+    display: block;
+  }
+</style>
+
+<video id="video"></video>
+
+<button id="startBtn" disabled>START</button>
+
+<button id="pauseBtn" disabled>PAUSE</button>
+<button id="resumeBtn" disabled>RESUME</button>
+
+<button id="stopBtn" disabled>STOP</button>
+
+<script>
+const allChunks = [];
+
+async function main() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      audio: true,
+      video: true,
+    });
+
+    video.srcObject = stream;
+    video.play();
+
+    const recorder = new MediaRecorder(stream);
+
+    recorder.ondataavailable = e => allChunks.push(e.data);
+
+    pauseBtn.onclick = () => recorder.pause();
+    resumeBtn.onclick = () => recorder.resume();
+    startBtn.onclick = () => recorder.start(10);
+    stopBtn.onclick = () => recorder.stop() || promptDownload();
+
+    pauseBtn.disabled = false;
+    resumeBtn.disabled = false;
+    startBtn.disabled = false;
+    stopBtn.disabled = false;
+  } catch (err) {
+    throw err;
+  }
+}
+
+function promptDownload() {
+  const link = document.createElement('a');
+  link.style.display = 'none';
+
+  const fullBlob = new Blob(allChunks);
+  const downloadUrl = window.URL.createObjectURL(fullBlob);
+  link.href = downloadUrl;
+  link.download = 'media.webm';
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+}
+
+main();
+</script>
