@@ -17,6 +17,11 @@ iframe.demo {
   border-radius: 4px;
 }
 
+.tag {
+  margin: 2px 0;
+  display: inline-block;
+}
+
 .tag code {
   background-color: rgba(0, 0, 0, 0.03);
   color: rgba(0, 0, 0, 0.5);
@@ -27,17 +32,8 @@ iframe.demo {
   color: #888;
 }
 
-.tag {
-  margin: 2px 0;
-  display: inline-block;
-}
-
 .tag code::before {
   content: '#';
-}
-
-.archive-hidden {
-  display: none;
 }
 
 #hash-tag {
@@ -49,6 +45,10 @@ iframe.demo {
   text-decoration: line-through;
 }
 
+.archive-hidden {
+  display: none;
+}
+
 pre {
   overflow-x: auto;
   white-space: pre;
@@ -56,4 +56,21 @@ pre {
 
 a code {
   color: #268bd2;
+}
+
+.social {
+  margin: 10px;
+  text-align: center;
+}
+
+.social a {
+  font-size: 18px;
+  margin: 0 8px;
+}
+
+p {
+  font-family: Georgia, serif;
+  letter-spacing: .01rem;
+  font-size: 18px;
+  line-height: 1.58;
 }
