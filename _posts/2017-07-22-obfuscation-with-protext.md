@@ -21,11 +21,11 @@ Tweeted by [Shiv Deepak], Engineering Manager at HackerRank and later by officia
 
 They implemented a special encoder mechanism that made this ...
 
-![]({{site.baseurl}}/img/2.png)
+![]({{site.baseurl}}/media/2017-07-22-obfuscation-with-protext/protext off.png)
 
 ... *render* as this in the browser.
 
-![]({{site.baseurl}}/img/1.png)
+![]({{site.baseurl}}/media/2017-07-22-obfuscation-with-protext/protext on.png)
 
 If we tried to copy/paste the text, we'd end up with the gibberish.
 
@@ -65,11 +65,7 @@ To make one character *render* as another, all we need to do is play these 2 val
 In the iframe below, each line has characters a-z.
 By using custom font, it is possible to change how a character *renders* on the screen.
 
-<iframe
-  class="demo"
-  style="height:auto"
-  src="{{site.baseurl}}/gists/2017-07-22-obfuscation-with-protext/index.html"
-></iframe>
+<iframe class="demo" frameborder="0" src="{{site.baseurl}}/gists/2017-07-22-obfuscation-with-protext/index.html"></iframe>
 
 ### Almost there
 
@@ -103,7 +99,7 @@ The first thing that came to mind were situations where onscreen content verific
 
 For example, github's repository deletion prompt:
 
-<img src="{{site.baseurl}}/img/git.png" class="center">
+<img src="{{site.baseurl}}/media/2017-07-22-obfuscation-with-protext/git confirm.png" class="center">
 
 ---
 

@@ -141,7 +141,7 @@ And that's it!
 
 Now we can start adding flow annotations to our code and the next time we start webpack, BOOM! - type errors in the pretty red colour we all love/hate.
 
-![]({{site.baseurl}}/img/demo.png)
+![]({{site.baseurl}}/media/2016-10-08-flowtype-and-modern-js/demo.png)
 
 ---
 

@@ -290,7 +290,7 @@ I haven't yet figured out a way to sole this problem, but using the `<canvas />`
 
 Here's a demo video highlighting the 2 problems.
 
-<video class="center-block" src="{{ site.baseurl }}/gists/2017-09-04-mediarecorder/media.webm" controls></video>
+<video class="center-block" src="{{site.baseurl}}/media/2017-09-02-mediarecorder/media.webm" controls></video>
 
 ---
 
@@ -314,5 +314,5 @@ At this point, it'd be good to have some [demos] and the source [code].
 [Matroska format]: https://www.matroska.org/technical/specs/index.html
 [DASH Adaptive Streaming]: https://developer.mozilla.org/docs/Web/HTML/DASH_Adaptive_Streaming_for_HTML_5_Video
 [electron apps]: https://electron.atom.io/apps
-[demos]: {{ site.baseurl }}/gists/2017-09-04-mediarecorder
+[demos]: {{site.baseurl}}/gists/2017-09-04-mediarecorder
 [code]: https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-09-04-mediarecorder

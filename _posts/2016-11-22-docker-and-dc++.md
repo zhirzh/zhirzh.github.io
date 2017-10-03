@@ -36,7 +36,7 @@ $ sudo ifconfig docker0 down
 
 And all was back to normal.
 
-![]({{site.baseurl}}/img/chat.png)
+![]({{site.baseurl}}/media/2016-11-22-docker-and-dc++/chat.png)
 
 ---
 

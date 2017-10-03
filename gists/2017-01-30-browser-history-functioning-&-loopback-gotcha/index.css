@@ -4,15 +4,20 @@
  padding: 0;
  font-family: sans-serif;
 }
+
 div {
   padding: 10px;
   overflow: hidden;
 }
 
-.node,
-.arrow {
+.arrow,
+.node {
   float: left;
   padding: 5px;
+}
+
+.arrow {
+  margin: 0 5px;
 }
 
 .node {
@@ -25,8 +30,4 @@ div {
 }
 .node.deleted {
   background-color: #faa;
-}
-
-.arrow {
-  margin: 0 5px;
 }

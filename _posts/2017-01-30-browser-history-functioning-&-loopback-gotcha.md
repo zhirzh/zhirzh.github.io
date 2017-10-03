@@ -19,7 +19,6 @@ A doubly linked list (abbreviated as *DLL*) has the following benefits over a si
 * Bi-directional movement is easy (beats singly linked list)
 
 ---
-<br />
 
 ## Push
 
@@ -57,7 +56,6 @@ history.forward(); // equivalent to history.go(1)
 ```
 
 ---
-<br />
 
 ## Pop
 
@@ -71,7 +69,6 @@ window.onpopstate = function(e) {
 ```
 
 ---
-<br />
 
 ## Branching
 
@@ -80,16 +77,14 @@ If we are on some intermediate entry and navigate to a new URL (not back/forward
 And a new branch will emerge, with the previous entries.
 
 ---
-<br />
 
 ## Demo
 
 *Note:* Use the `BACK` and `FORWARD` buttons provided in the demo and **not** the browser's buttons.
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
+<iframe id="demo" class="demo" frameborder="0" sandbox="allow-scripts allow-same-origin" src="{{site.baseurl}}/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo.html#/home"></iframe>
 
 ---
-<br />
 
 ## The Gotcha
 
@@ -114,7 +109,7 @@ Still with me? Sounds confusing? How 'bout a demo, eh?
 In the demo below, try cancelling the login prompt and then going back.
 You will find it *IMPOSSIBLE*.
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-bug.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
+<iframe id="demo-bug" class="demo" frameborder="0" sandbox="allow-scripts allow-same-origin" src="{{site.baseurl}}/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-bug.html#/home"></iframe>
 
 ---
 
@@ -130,10 +125,9 @@ The solution is used [here].
     }
 ```
 
-<iframe src="/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-fixed.html#/home" frameborder="0" class="demo" sandbox=""></iframe>
+<iframe id="demo-fixed" class="demo" frameborder="0" sandbox="allow-scripts allow-same-origin" src="{{site.baseurl}}/gists/2017-01-30-browser-history-functioning-&-loopback-gotcha/demo-fixed.html#/home"></iframe>
 
 ---
-<br />
 
 ## The End
 
@@ -146,6 +140,38 @@ If you are interested in the implementations, here's the code:
 * [Bug]
 * [Bugfix]
 
+<script>
+  window.onmessage = (e) => {
+    if (!e.data || typeof e.data.target !== 'string') {
+      return;
+    }
+
+    let iframe;
+
+    switch (true) {
+      case e.data.target.includes('demo.html'):
+        iframe = document.querySelector('iframe#demo');
+        break;
+
+      case e.data.target.includes('demo-bug.html'):
+        iframe = document.querySelector('iframe#demo-bug');
+        break;
+
+      case e.data.target.includes('demo-fixed.html'):
+        iframe = document.querySelector('iframe#demo-fixed');
+        break;
+
+      default:
+        iframe = null;
+    }
+
+    if (iframe === null) {
+      return;
+    }
+
+    iframe.style.height = (e.data.height + 20) + 'px';
+  }
+</script>
 
 [`History`]: https://developer.mozilla.org/en/docs/Web/API/History
 

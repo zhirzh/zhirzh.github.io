@@ -7,9 +7,9 @@ tags: tutorial timing-controls
 
 *This is small one.*
 
-In a [previous post], we looked at API style implementations of the techniques discussed in [another post].
+In a [previous post], we looked at higher order implementations of the techniques discussed in [another post].
 
-And in this post, we'll look at [`requestAnimationFrame`].
+In this post, we'll look at [`requestAnimationFrame`].
 
 <!-- preview -->
 
@@ -31,25 +31,25 @@ window.requestAnimationFrame(render);
 
 The problem with `requestAnimationFrame` is that it doesn't enforce a callback speed - it only defines the upper limit of it.
 As MDN puts it:
+
 > The number of callbacks is usually 60 times per second, but will generally match the display refresh rate in most web browsers as per W3C recommendation.
 
 The solution is easy.
 `requestAnimationFrame` passes a single argument to the callback function.
-It is a [high resolution timestamp] in milliseconds.
+It is a [high resolution timestamp], measured in milliseconds.
 
-Thus, we can use `requestAnimationFrame` as an alternative to `setTimeout` for our Throttle implementation.
+We can use `requestAnimationFrame` as an alternative to `setTimeout` for our Throttle implementation.
 
 ```js
 function throttle(fn, delta, context) {
   return function() {
-    var args = arguments;
-    var then = 0;
+    let then = 0;
 
     function repeat(now) {
       requestAnimationFrame(repeat);
       if (now - then >= delta) {
         then = now;
-        fn.call(context, args);
+        fn.call(context, arguments);
       }
     }
 

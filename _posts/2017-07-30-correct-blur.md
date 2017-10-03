@@ -28,12 +28,12 @@ Here's the full explanation by [Henry Reich (minutephysics)].
 
 The gist of the process is to take square-roots of the raw pixels when saving the file and when displaying the stored files, square the stored values (since they were rooted initially).
 
-![]({{site.baseurl}}/img/correct-blur/1.png)
+![]({{site.baseurl}}/media/2017-07-30-correct-blur/1.png)
 
 The problem occurs when editing a picture involves direct pixel manipulations.
 Any transform can yield bad results if applied incorrectly.
 
-![]({{site.baseurl}}/img/correct-blur/2.png)
+![]({{site.baseurl}}/media/2017-07-30-correct-blur/2.png)
 
 Blurring, for instance, is done by replacing each pixel with an *average* of the pixel and the neighboring pixels.
 The averaging must be applied to the raw pixels, not their square-roots.

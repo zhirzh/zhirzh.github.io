@@ -27,7 +27,7 @@ function foo() {
 
 function debouncedFoo() {
   clearTimeout(timeoutID);
-  timeoutID = setTimeout(function() {
+  timeoutID = setTimeout(() => {
     foo();
   }, delta);
 };
@@ -50,18 +50,18 @@ function foo(a, b, c) {
 
 function debouncedFoo(x, y, z) {
   // ...
-    foo(x, y, z);
+  foo(x, y, z);
   // ...
 };
 ```
 
-### 2. Functions with unknown arity
+### 2. Functions with variable arity
 
 Arity is the number of arguments the function takes.
 If we know how many arguments `foo` requires, the above works just fine.
-In case of unknown arity function, we can use the [`arguments` object].
+In case of variable arity function, we can use the [`arguments` object].
 
-We will use [`.apply`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply) method because it allows function execution with the arguments being passed as an array or array-like object (ex: `arguments`).
+We will use [`.apply()`] method because it allows function execution with the arguments being passed as an array or array-like object (ex: `arguments`).
 
 ```js
 function foo(a, b, c) {
@@ -76,14 +76,11 @@ function debouncedFoo(arguments) {
 };
 ```
 
-### 3. Multiple debounced functions
+### 3. Higher order function wrappers
 
-Now, let's move on to the next problem - production.
-How many debounced functions do we need? And are we going to hardcode them all?
-
-A better approach is to use Higher-order functions.
-There are a tons of resources on HOFs, and I suggest to have a good read on the topic.
-In the simplest of terms, HOFs take in a function and return a function.
+Hardcoding timing controls into our callbacks isn't good.
+It's better if the callback and the timing can act separately.
+We can achieve this by using Higher order functions.
 
 ```js
 var delta = 1000;
@@ -95,11 +92,11 @@ function log(e) {
 function debounce(fn, delta) {
   var timeoutID = null;
 
-  return function() {
+  return () => {
     clearTimeout(timeoutID);
 
     var args = arguments;
-    timeoutID = setTimeout(function() {
+    timeoutID = setTimeout(() => {
       fn.apply(null, args);
     }, delta);
   };
@@ -109,25 +106,21 @@ var debouncedLog = debounce(log, delta);
 window.onkeydown = debouncedLog;
 ```
 
-### 4. Prevent context loss
+### 4. Preserve context
 
-Good, good.
 Up until now, we can convert any number of functions into debounced versions of themselves, along with passing the arguments.
 But there's another problem that arises - context loss.
 
-Since we are using `.apply` method of a function, we are providing the context (a.k.a. the `this` variable) for function invocation.
-This is a problem for any function that depends on `this` internally.
-
-To resolve this problem, all we need is the proper context of the function being debounced.
-But we can't extract the context from the function itself.
+When calling `.apply()` on a function, we must also pass the proper context for functions that use `this` internally.
 Therefore, it must be provided externally.
+
 
 ```js
 // ...
 
 function debounce(fn, delta, context) {
   // ...
-      fn.apply(context, args);
+  fn.apply(context, args);
   // ...
 }
 ```
@@ -135,11 +128,13 @@ function debounce(fn, delta, context) {
 ---
 
 ## Conclusion
-Finally, what arrive at the this code for Debounce.
-You can try it
-<a href="https://jsfiddle.net/zhirzh/3bbmxu8h/2">here</a>
-and
-<a href="https://jsfiddle.net/zhirzh/4o88jmbq/3">here</a>.
+Finally, we arrive at the Debounce HOF.
+Here's a demo ...
+
+<p data-height="421" data-theme-id="0" data-slug-hash="booKGv" data-default-tab="js,result" data-user="zhirzh" data-embed-version="2" data-pen-title="Timing Controls | Debounce " class="codepen">See the Pen <a href="https://codepen.io/zhirzh/pen/booKGv/">Timing Controls | Debounce </a> by Shirsh Zibbu (<a href="https://codepen.io/zhirzh">@zhirzh</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+... And the code implementations:
 
 ### Debounce
 
@@ -147,18 +142,16 @@ and
 function debounce(fn, delta, context) {
   var timeoutID = null;
 
-  return function() {
+  return () => {
     clearTimeout(timeoutID);
 
     var args = arguments;
-    timeoutID = setTimeout(function() {
+    timeoutID = setTimeout(() => {
       fn.apply(context, args);
     }, delta);
   };
 }
 ```
-
-And here are the rest of the techniques:
 
 ### Immediate
 
@@ -167,7 +160,7 @@ function immediate(fn, delta, context) {
   var timeoutID = null;
   var safe = true;
 
-  return function() {
+  return () => {
     var args = arguments;
 
     if (safe) {
@@ -176,7 +169,7 @@ function immediate(fn, delta, context) {
     }
 
     clearTimeout(timeoutID);
-    timeoutID = setTimeout(function() {
+    timeoutID = setTimeout(() => {
       safe = true;
     }, delta);
   };
@@ -189,14 +182,14 @@ function immediate(fn, delta, context) {
 function throttle(fn, delta, context) {
   var safe = true;
 
-  return function() {
+  return () => {
     var args = arguments;
 
     if (safe) {
       fn.call(context, args);
 
       safe = false;
-      setTimeout(function() {
+      setTimeout(() => {
         safe = true;
       }, delta);
     }
@@ -204,15 +197,19 @@ function throttle(fn, delta, context) {
 }
 ```
 
-Here's a [demo] of all three techniques.
+Here's a demo of all three techniques:
 
 ---
 
 ## The End
 
-In the final post, we will see an implementation of Throttle that works well with browsers.
+In the [final post], we will see an implementation of Throttle that works well with browsers.
 
-[previous post]: {% post_url 2016-10-11-timing-controls %} "Timing Controls"
+<p data-height="296" data-theme-id="0" data-slug-hash="MEEXWL" data-default-tab="js,result" data-user="zhirzh" data-embed-version="2" data-pen-title="Timing Controls" class="codepen">See the Pen <a href="https://codepen.io/zhirzh/pen/MEEXWL/">Timing Controls</a> by Shirsh Zibbu (<a href="https://codepen.io/zhirzh">@zhirzh</a>) on <a href="https://codepen.io">CodePen</a>.</p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+[`.apply()`]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+[previous post]: {% post_url 2016-10-11-timing-controls %}
 [higher order functions]: https://en.wikipedia.org/wiki/Higher-order_function
 [`arguments` object]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments
-[demo]: https://jsfiddle.net/zhirzh/4oac34m0
+[final post]: {% post_url 2016-10-20-timing-controls-3 %}

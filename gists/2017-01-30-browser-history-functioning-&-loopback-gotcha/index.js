@@ -81,6 +81,11 @@
       timestamp: +(new Date()),
     }, '', href);
 
+    window.parent.postMessage({
+      height: document.body.scrollHeight,
+      target: window.location.href,
+    }, '*');
+
     // return false;
   }
 

@@ -12,7 +12,6 @@
 iframe.demo {
   padding: 10px;
   width: 100%;
-  height: 500px;
   box-shadow: inset 0 0 20px -2px lightgray;
   border-radius: 4px;
 }
