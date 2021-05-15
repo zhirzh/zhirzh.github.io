@@ -118,19 +118,19 @@ Since the time of posting this article, both Twitter and Pinterest have ditched 
 <p>The main content can be accessed with <code>$(&#39;.PermalinkOverlay&#39;)</code>.</p>
 
    <figure>
-      <pre class="hljs"><code>const App = () =&gt; (
-  &lt;Switch location={isModal ? this.previousLocation : location}&gt;
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function">() =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
     ...
-    &lt;Route
-      path="/twitter"
-      render={() =&gt; (
-        &lt;&gt;
-          {isModal ? null : &lt;Container /&gt;}
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
+      <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/twitter&quot;</span>
+      <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> (
+        <span class="hljs-tag">&lt;&gt;</span>
+          {isModal ? null : <span class="hljs-tag">&lt;<span class="hljs-name">Container</span> /&gt;</span>}
 
-          &lt;Modal /&gt;
-        &lt;/&gt;
+          <span class="hljs-tag">&lt;<span class="hljs-name">Modal</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/&gt;</span>
       )}
-    /&gt;
+    /&gt;</span>
   &lt;/Switch&gt;
 )</code></pre>
       
@@ -143,11 +143,11 @@ Since the time of posting this article, both Twitter and Pinterest have ditched 
 <p>In fact, Pinterest seems to use the same container in the modal as well. You can inspect the common components on either page by accessing it from the console using <code>$(&#39;.Closeup.Module.flex&#39;)</code>.</p>
 
    <figure>
-      <pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> (
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function">() =&gt;</span> (
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
     ...
     <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
-      <span class="hljs-attr">path</span>=<span class="hljs-string">"/pinterest"</span>
+      <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pinterest&quot;</span>
       <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> {
         const Component = isModal ? Modal : Container
 

@@ -143,7 +143,7 @@ This past week, however, my curiosity got the best of me and I just had to find 
    </figure>
 <p>This works perfect in browsers because everything that is a part of the JS execution environment, BOM, DOM and CSSOM reside under the global scope <code>window</code>.
 You can see the prototype tree below or in a
-<a href="https://zhirzh.github.io/prototype-tree?mode=browser" target="_blank">new tab</a>
+<a href="https://zhirzh.github.io/prototype-tree?mode=browser" target="_blank"></a>new tab
 .</p>
 
    <figure>
@@ -169,7 +169,7 @@ In all fairness though, this isn&#39;t all too important.</li>
 The default execution environment only contains the language&#39;s minimal feature set.
 All additional features are in separate modules.
 Naively running the code above results in a
-<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank">sparse tree</a>
+<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank"></a>sparse tree
 .</p>
 
    <figure>
@@ -183,7 +183,7 @@ Instead, we will invert the module inside-out, adding all its structures to the 
 This can be avoided by adding the module name to the structure name, i.e., scoping it.</p>
 
    <figure>
-      <pre class="hljs"><code><span class="hljs-keyword">const</span> modNames = [<span class="hljs-string">'assert'</span>, <span class="hljs-string">'async_hooks'</span>, ...<span class="hljs-string">'vm'</span>, <span class="hljs-string">'zlib'</span>]
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> modNames = [<span class="hljs-string">&#x27;assert&#x27;</span>, <span class="hljs-string">&#x27;async_hooks&#x27;</span>, ...<span class="hljs-string">&#x27;vm&#x27;</span>, <span class="hljs-string">&#x27;zlib&#x27;</span>]
 
 modNames.forEach(<span class="hljs-function"><span class="hljs-params">modName</span> =&gt;</span> {
   <span class="hljs-keyword">const</span> mod = <span class="hljs-built_in">require</span>(modName)
@@ -193,18 +193,18 @@ modNames.forEach(<span class="hljs-function"><span class="hljs-params">modName</
     .forEach(<span class="hljs-function"><span class="hljs-params">propName</span> =&gt;</span> {
       <span class="hljs-keyword">const</span> prop = mod[propName]
 
-      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> prop.name === <span class="hljs-string">'string'</span> &amp;&amp; prop.name.length &gt; <span class="hljs-number">0</span>) {
-        prop.scopedName = prop.name + <span class="hljs-string">'['</span> + modName + <span class="hljs-string">']'</span>
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> prop.name === <span class="hljs-string">&#x27;string&#x27;</span> &amp;&amp; prop.name.length &gt; <span class="hljs-number">0</span>) {
+        prop.scopedName = prop.name + <span class="hljs-string">&#x27;[&#x27;</span> + modName + <span class="hljs-string">&#x27;]&#x27;</span>
       }
 
-      <span class="hljs-keyword">const</span> scopedPropName = propName + <span class="hljs-string">'['</span> + modName + <span class="hljs-string">']'</span>
-      global[scopedPropName] = prop
+      <span class="hljs-keyword">const</span> scopedPropName = propName + <span class="hljs-string">&#x27;[&#x27;</span> + modName + <span class="hljs-string">&#x27;]&#x27;</span>
+      <span class="hljs-built_in">global</span>[scopedPropName] = prop
     })
 })</code></pre>
       
    </figure>
 <p>After adding the code above, we get the
-<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank">full tree</a>.</p>
+<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank"></a>full tree.</p>
 <p>Notice how the class <code>Server</code> is present at multiple branches and levels in the tree.
 Without scoping the class names, <code>tls</code> would&#39;ve overwritten <code>http</code> server node.</p>
 

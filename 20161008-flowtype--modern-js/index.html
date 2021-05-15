@@ -116,7 +116,7 @@ function resetSidebar() {
    <figure>
       <pre class="hljs"><code><span class="hljs-comment">// [number + string] + string === string</span>
 <span class="hljs-keyword">const</span> num = <span class="hljs-number">123</span>
-<span class="hljs-keyword">const</span> str = <span class="hljs-string">'hello world'</span>
+<span class="hljs-keyword">const</span> str = <span class="hljs-string">&#x27;hello world&#x27;</span>
 
 <span class="hljs-built_in">console</span>.log([num + str] + num) <span class="hljs-comment">//&gt; 123hello world123</span></code></pre>
       
@@ -157,7 +157,7 @@ function resetSidebar() {
   <span class="hljs-keyword">return</span> x * <span class="hljs-number">10</span>
 }
 
-times10(<span class="hljs-string">'Hello, world!'</span>)</code></pre>
+times10(<span class="hljs-string">&#x27;Hello, world!&#x27;</span>)</code></pre>
       
    </figure>
 <p>... it can infer the type of the parameter <code>x</code> given in definition, the type of the argument passed in, compare them and report the following:</p>
@@ -200,9 +200,9 @@ yarn add -D flow-babel-webpack-plugin</code></pre>
 
 {
   <span class="hljs-comment">// ...</span>
-  <span class="hljs-attr">"plugins"</span>: [
+  <span class="hljs-attr">&quot;plugins&quot;</span>: [
     <span class="hljs-comment">// ...</span>
-    <span class="hljs-string">"transform-flow-comments"</span>
+    <span class="hljs-string">&quot;transform-flow-comments&quot;</span>
   ]
 }</code></pre>
       
@@ -211,7 +211,7 @@ yarn add -D flow-babel-webpack-plugin</code></pre>
    <figure>
       <pre class="hljs"><code><span class="hljs-comment">// webpack.config.js</span>
 
-<span class="hljs-keyword">var</span> FlowBabelWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">'flow-babel-webpack-plugin'</span>)
+<span class="hljs-keyword">var</span> FlowBabelWebpackPlugin = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;flow-babel-webpack-plugin&#x27;</span>)
 
 <span class="hljs-built_in">module</span>.exports = {
   <span class="hljs-comment">// ...</span>

@@ -123,14 +123,14 @@ function resetSidebar() {
       <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
 alice@alice_machine$ ssh bob@bob_machine
 
-The authenticity of host <span class="hljs-string">'bob_machine'</span> cannot be established.
+The authenticity of host <span class="hljs-string">&#x27;bob_machine&#x27;</span> cannot be established.
 ECDSA key fingerprint is SHA256:iqtfGBdyKViB4dV3lY1pYaZizgVwTV/ntQ0k4A1elIE.
 Are you sure you want to <span class="hljs-built_in">continue</span> connecting (yes/no)?
 &gt; yes
 
-Warning: Permanently added <span class="hljs-string">'bob_machine'</span> (ECDSA) to the list of known hosts.
+Warning: Permanently added <span class="hljs-string">&#x27;bob_machine&#x27;</span> (ECDSA) to the list of known hosts.
 
-Password: <span class="hljs-comment"># Bob's password</span>
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
 &gt; ********
 
 <span class="hljs-comment"># Alice on bob_machine as Bob</span>
@@ -154,7 +154,7 @@ bob@bob_machine$ <span class="hljs-comment"># DONE!</span></code></pre>
       <pre class="hljs"><code><span class="hljs-comment"># Bob on bob_machine</span>
 bob@bob_machine$ ssh -N -R 2222:localhost:22 alice@alice_machine
 
-Password: <span class="hljs-comment"># Alice's password</span>
+Password: <span class="hljs-comment"># Alice&#x27;s password</span>
 &gt; ****************</code></pre>
       
    </figure>
@@ -164,7 +164,7 @@ Password: <span class="hljs-comment"># Alice's password</span>
       <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
 alice@alice_machine$ ssh -p 2222 bob@localhost
 
-Password: <span class="hljs-comment"># Bob's password</span>
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
 &gt; ********
 
 <span class="hljs-comment"># Alice on bob_machine as Bob</span>
@@ -192,7 +192,7 @@ bob@bob_machine$ <span class="hljs-comment"># DONE!</span></code></pre>
       <pre class="hljs"><code><span class="hljs-comment"># Bob on bob_machine</span>
 bob@bob_machine$ ssh -N -R 2222:localhost:22 matt@matt_machine
 
-Password: <span class="hljs-comment"># Matt's password</span>
+Password: <span class="hljs-comment"># Matt&#x27;s password</span>
 &gt; ****</code></pre>
       
    </figure>
@@ -202,7 +202,7 @@ Password: <span class="hljs-comment"># Matt's password</span>
       <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
 alice@alice_machine$ ssh -p 2222 bob@matt_machine
 
-Password: <span class="hljs-comment"># Bob's password</span>
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
 &gt; ********
 
 <span class="hljs-comment"># Alice on bob_machine as Bob</span>

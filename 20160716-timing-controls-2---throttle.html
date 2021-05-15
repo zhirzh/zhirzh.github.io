@@ -113,7 +113,7 @@ function resetSidebar() {
    <figure>
       <pre class="hljs"><code><span class="hljs-comment">// Throttle events</span>
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'foo'</span>)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;foo&#x27;</span>)
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">throttle</span>(<span class="hljs-params">fn, delay</span>) </span>{
@@ -121,17 +121,17 @@ function resetSidebar() {
 
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">if</span> (!isWaiting) {
-      fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       isWaiting = <span class="hljs-literal">true</span>
 
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isWaiting = <span class="hljs-literal">false</span>
       }, delay)
     }
   }
 }
 
-<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">'mousemove'</span>, throttle(foo, <span class="hljs-number">1000</span>))</code></pre>
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, throttle(foo, <span class="hljs-number">1000</span>))</code></pre>
       
    </figure>
 
@@ -168,16 +168,16 @@ function resetSidebar() {
 
   <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">if</span> (isFirst) {
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isFirst = <span class="hljs-literal">false</span>
       }, delay)
     }
 
     <span class="hljs-keyword">if</span> (!isWaiting &amp;&amp; !(isFirst &amp;&amp; skipFirst)) {
-      fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       isWaiting = <span class="hljs-literal">true</span>
 
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isWaiting = <span class="hljs-literal">false</span>
       }, delay)
     }
@@ -201,19 +201,19 @@ function resetSidebar() {
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">work</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">if</span> (isWaiting &amp;&amp; keepFinal) {
-      clearTimeout(finalTimer)
-      finalTimer = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-        work.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      <span class="hljs-built_in">clearTimeout</span>(finalTimer)
+      finalTimer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        work.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       }, delay)
     }
 
     <span class="hljs-keyword">if</span> (!isWaiting) {
-      fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       isWaiting = <span class="hljs-literal">true</span>
 
-      clearTimeout(finalTimer)
+      <span class="hljs-built_in">clearTimeout</span>(finalTimer)
 
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isWaiting = <span class="hljs-literal">false</span>
       }, delay)
     }
@@ -234,7 +234,7 @@ function resetSidebar() {
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">throttle</span>(<span class="hljs-params">
   fn,
   delay,
-  { keepFinal = false, skipFirst = false } = {}
+  { keepFinal = <span class="hljs-literal">false</span>, skipFirst = <span class="hljs-literal">false</span> } = {}
 </span>) </span>{
   <span class="hljs-keyword">let</span> isWaiting = <span class="hljs-literal">false</span>
   <span class="hljs-keyword">let</span> isFirst = <span class="hljs-literal">true</span>
@@ -242,25 +242,25 @@ function resetSidebar() {
 
   <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">work</span>(<span class="hljs-params"></span>) </span>{
     <span class="hljs-keyword">if</span> (isFirst) {
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isFirst = <span class="hljs-literal">false</span>
       }, delay)
     }
 
     <span class="hljs-keyword">if</span> (isWaiting &amp;&amp; keepFinal) {
-      clearTimeout(finalTimer)
-      finalTimer = setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-        work.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      <span class="hljs-built_in">clearTimeout</span>(finalTimer)
+      finalTimer = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+        work.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       }, delay)
     }
 
     <span class="hljs-keyword">if</span> (!isWaiting &amp;&amp; !(isFirst &amp;&amp; skipFirst)) {
-      fn.apply(<span class="hljs-keyword">this</span>, <span class="hljs-built_in">arguments</span>)
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
       isWaiting = <span class="hljs-literal">true</span>
 
-      clearTimeout(finalTimer)
+      <span class="hljs-built_in">clearTimeout</span>(finalTimer)
 
-      setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+      <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
         isWaiting = <span class="hljs-literal">false</span>
       }, delay)
     }

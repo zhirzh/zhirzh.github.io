@@ -132,7 +132,7 @@ function resetSidebar() {
 
    <figure>
       <pre class="hljs"><code>{
-    <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span>,
+    <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;foo&#x27;</span>,
     <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
     <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
     <span class="hljs-attr">writable</span>: <span class="hljs-literal">false</span>,
@@ -144,7 +144,7 @@ function resetSidebar() {
    <figure>
       <pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
 
-foo.name = <span class="hljs-string">'not foo'</span>
+foo.name = <span class="hljs-string">&#x27;not foo&#x27;</span>
 <span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span></code></pre>
       
    </figure>
@@ -153,7 +153,7 @@ foo.name = <span class="hljs-string">'not foo'</span>
    <figure>
       <pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
 
-<span class="hljs-built_in">Object</span>.defineProperty(foo, <span class="hljs-string">'name'</span>, { <span class="hljs-attr">value</span>: <span class="hljs-string">'not foo'</span> })
+<span class="hljs-built_in">Object</span>.defineProperty(foo, <span class="hljs-string">&#x27;name&#x27;</span>, { <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;not foo&#x27;</span> })
 <span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; not foo</span>
 
 <span class="hljs-keyword">delete</span> foo.name
@@ -170,8 +170,8 @@ foo.name = <span class="hljs-string">'not foo'</span>
       <pre class="hljs"><code><span class="hljs-comment">// Firefox</span>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{}
-foo.displayName = <span class="hljs-string">'notFoo'</span>
-foo <span class="hljs-comment">// "function notFoo()"</span></code></pre>
+foo.displayName = <span class="hljs-string">&#x27;notFoo&#x27;</span>
+foo <span class="hljs-comment">// &quot;function notFoo()&quot;</span></code></pre>
       
    </figure>
 </article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20170302-ssh-into-private-machines/">⟵ SSH Into Private Machines</a></li><li class="related-posts-next"><a href="/20161008-flowtype--modern-js/">Flowtype &amp; Modern JS ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

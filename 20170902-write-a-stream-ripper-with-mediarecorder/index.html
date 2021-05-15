@@ -149,7 +149,7 @@ The early uses of MediaStreams came with the use of <code>getUserMedia()</code> 
 
    <figure>
       <pre class="hljs"><code>navigator.mediaDevices.getUserMedia().then(<span class="hljs-function"><span class="hljs-params">stream</span> =&gt;</span> {
-  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">'Captured MediaStream:'</span>, stream)
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;Captured MediaStream:&#x27;</span>, stream)
 })</code></pre>
       
    </figure>
@@ -206,7 +206,7 @@ Here&#39;s a short snippet that highlights all the key parts.</p>
 
 <span class="hljs-comment">// When recording starts, the captured frames are emitted</span>
 <span class="hljs-comment">// as `dataavailable` events on the `recorder`.</span>
-<span class="hljs-comment">// These captured "chunks" can be collected in an array.</span>
+<span class="hljs-comment">// These captured &quot;chunks&quot; can be collected in an array.</span>
 <span class="hljs-keyword">const</span> allChunks = []
 recorder.ondataavailable = <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
   allChunks.push(e.data)
@@ -221,22 +221,22 @@ recorder.start()
 recorder.pause()
 recorder.resume()
 
-<span class="hljs-comment">// When we're done, we can stop recording.</span>
+<span class="hljs-comment">// When we&#x27;re done, we can stop recording.</span>
 <span class="hljs-comment">// This ensures that no more media chunks are captured,</span>
 <span class="hljs-comment">// even if media playback continues.</span>
 recorder.stop()
 
 <span class="hljs-comment">// We can now join all the chunks</span>
-<span class="hljs-comment">// into a single "blob" ...</span>
+<span class="hljs-comment">// into a single &quot;blob&quot; ...</span>
 <span class="hljs-keyword">const</span> fullBlob = <span class="hljs-keyword">new</span> Blob(allChunks)
 
 <span class="hljs-comment">// ... which we can download using HTML5 `download` attribute on &lt;a /&gt;</span>
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'a'</span>)
-link.style.display = <span class="hljs-string">'none'</span>
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;a&#x27;</span>)
+link.style.display = <span class="hljs-string">&#x27;none&#x27;</span>
 
 <span class="hljs-keyword">const</span> downloadUrl = <span class="hljs-built_in">window</span>.URL.createObjectURL(fullBlob)
 link.href = downloadUrl
-link.download = <span class="hljs-string">'media.webm'</span>
+link.download = <span class="hljs-string">&#x27;media.webm&#x27;</span>
 
 <span class="hljs-built_in">document</span>.body.appendChild(link)
 link.click()
@@ -263,7 +263,7 @@ link.remove()</code></pre>
 It controls the codecs used for encoding audio and video components.</p>
 
    <figure>
-      <pre class="hljs"><code><span class="hljs-keyword">const</span> codec = <span class="hljs-string">'video/webm'</span>;
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> codec = <span class="hljs-string">&#x27;video/webm&#x27;</span>;
 
 <span class="hljs-keyword">const</span> recorder = <span class="hljs-keyword">new</span> MediaRecorder(stream, {
   <span class="hljs-attr">mimeType</span>: codec,
@@ -276,8 +276,8 @@ It controls the codecs used for encoding audio and video components.</p>
 <p>To check if a codec is supported, use <a href="https://developer.mozilla.org/docs/Web/API/MediaRecorder/isTypeSupported"><code>MediaRecorder.isTypeSupported()</code></a>.</p>
 
    <figure>
-      <pre class="hljs"><code>MediaRecorder.isTypeSupported(<span class="hljs-string">'video/webm'</span>) <span class="hljs-comment">// true</span>
-MediaRecorder.isTypeSupported(<span class="hljs-string">'video/mp4'</span>) <span class="hljs-comment">// false</span></code></pre>
+      <pre class="hljs"><code>MediaRecorder.isTypeSupported(<span class="hljs-string">&#x27;video/webm&#x27;</span>) <span class="hljs-comment">// true</span>
+MediaRecorder.isTypeSupported(<span class="hljs-string">&#x27;video/mp4&#x27;</span>) <span class="hljs-comment">// false</span></code></pre>
       
    </figure>
 <p>At the time of writing, the supported codecs are:</p>
@@ -344,7 +344,7 @@ There are 3 steps:</p>
   <span class="hljs-comment">// to push audio content into the stream</span>
   source.connect(destination)
 
-  <span class="hljs-comment">// Connect the source node to the audio context's destination node</span>
+  <span class="hljs-comment">// Connect the source node to the audio context&#x27;s destination node</span>
   <span class="hljs-comment">// so the playback can still deliver audio</span>
   source.connect(audioCtx.destination)
 
@@ -357,7 +357,7 @@ There are 3 steps:</p>
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">polyfillVideo</span>(<span class="hljs-params">mediaElement</span>) </span>{
   <span class="hljs-comment">// Create a canvas element</span>
-  <span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'canvas'</span>)
+  <span class="hljs-keyword">const</span> canvas = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">&#x27;canvas&#x27;</span>)
 
   <span class="hljs-comment">// Start rendering video frames onto the canvas</span>
   renderVideoFrame(canvas, videoElement)
@@ -368,11 +368,11 @@ There are 3 steps:</p>
 }
 
 <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">renderVideoFrame</span>(<span class="hljs-params">canvas, videoElement</span>) </span>{
-  <span class="hljs-keyword">const</span> ctx = canvas.getContext(<span class="hljs-string">'2d'</span>)
+  <span class="hljs-keyword">const</span> ctx = canvas.getContext(<span class="hljs-string">&#x27;2d&#x27;</span>)
 
   ctx.drawImage(videoElement, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, canvas.width, canvas.height)
 
-  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> renderVideoFrame(canvas, videoElement))
+  <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> renderVideoFrame(canvas, videoElement))
 }</code></pre>
       
    </figure>
