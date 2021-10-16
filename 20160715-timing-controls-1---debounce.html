@@ -1,0 +1,287 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>Timing Controls 1 - Debounce</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="timing-controls-1---debounce" class="post-heading"><a href="#timing-controls-1---debounce">Timing Controls 1 - Debounce</a></h1><aside class="contents">Contents<nav><ul><li><a href="#timing-controls-1---debounce">Timing Controls 1 - Debounce</a><ul><li><a href="#js-debounce-function">
+         JS debounce function
+      </a><ul><li><a href="#problem-1-passing-arguments">
+         Problem #1: Passing arguments
+      </a></li><li><a href="#problem-2-functions-with-variable-arity">
+         Problem #2: Functions with variable arity
+      </a></li></ul></li><li><a href="#capturing-the-idea">
+         Capturing the idea
+      </a></li><li><a href="#demo">
+         Demo
+      </a></li><li><a href="#debouncing-in-reverse">
+         Debouncing in reverse
+      </a><ul><li><a href="#immediate">
+         Immediate
+      </a></li></ul></li><li><a href="#the-end">
+         The end
+      </a></li></ul></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>In analog electrical systems, pressing a spring based mechanical switch is results in several tightly packed signals as the spring bounces for a short while. Various mechanism and techniques are used to &quot;de bounce&quot; to filter out these unwanted signal spikes.</p>
+
+      <h2 id="js-debounce-function" class="post-heading">
+         <a href="#js-debounce-function">JS debounce function</a>
+      </h2>
+   <p>The basic idea behind debounce is to discard all but one events that occur within a fixed time duration.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment">// Debounced function</span>
+<span class="hljs-keyword">const</span> delay = <span class="hljs-number">1000</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;foo&#x27;</span>)
+}
+
+<span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">clearTimeout</span>(timeoutID)
+  timeoutID = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+    foo()
+  }, delay)
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, debouncedFoo)</code></pre>
+      
+   </figure>
+<p>When <code>debouncedFoo()</code> is called, it sets a timer for <code>delay</code> milliseconds and waits. If it is called another time within that waiting period then it will reset the timer and start all over again. When the timer finally runs out, call the original <code>foo()</code> function.</p>
+<p>This works fine in principle but there are few problems with this implementation.</p>
+
+      <h3 id="problem-1-passing-arguments" class="post-heading">
+         <a href="#problem-1-passing-arguments">Problem #1: Passing arguments</a>
+      </h3>
+   <p>What if <code>foo()</code> accepts some arguments? We need to provide those arguments on call. This problem can be resolved by adding parameters to <code>debouncedFoo</code>.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params">x, y, z</span>) </span>{
+  <span class="hljs-comment">// ...</span>
+  foo(x, y, z)
+  <span class="hljs-comment">// ...</span>
+}</code></pre>
+      
+   </figure>
+
+      <h3 id="problem-2-functions-with-variable-arity" class="post-heading">
+         <a href="#problem-2-functions-with-variable-arity">Problem #2: Functions with variable arity</a>
+      </h3>
+   <p>Arity is the number of required parameters of a function. If we know how many arguments <code>foo()</code> requires, the above works just fine. In case of variable arity function, we can use the <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/arguments"><code>arguments</code></a> object.</p>
+<p>We can use <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/apply"><code>Function#apply()</code></a> method because it allows function execution with the arguments being passed as an array or array-like object (ex: <code>arguments</code>).</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params">a, b, c</span>) </span>{
+  <span class="hljs-comment">// ...</span>
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debouncedFoo</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// ...</span>
+  foo.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+  <span class="hljs-comment">// ...</span>
+}</code></pre>
+      
+   </figure>
+
+      <h2 id="capturing-the-idea" class="post-heading">
+         <a href="#capturing-the-idea">Capturing the idea</a>
+      </h2>
+   <p>We can create a <a href="https://en.wikipedia.org/wiki/Higher-order_function">Higher Order Function</a> that abstracts away the process of creating a debounced function. We will call this new function <code>debounce()</code>:</p>
+<p>By creating our <code>debounce()</code> HOF, we can now create multiple debounced functions with ease since each one is only responsible for its own timekeeping.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment">// Simple debounce HOF</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&#x27;foo&#x27;</span>)
+}
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, delay</span>) </span>{
+  <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">clearTimeout</span>(timeoutID)
+    timeoutID = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+    }, delay)
+  }
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, debounce(foo, <span class="hljs-number">1000</span>))</code></pre>
+      
+   </figure>
+
+      <h2 id="demo" class="post-heading">
+         <a href="#demo">Demo</a>
+      </h2>
+   
+   <figure>
+      <iframe  src="https://codepen.io/zhirzh/embed/MEEXWL?default-tab=js,result"></iframe>
+      <figcaption>Timing Controls: Debounce</figcaption>
+   </figure>
+
+      <h2 id="debouncing-in-reverse" class="post-heading">
+         <a href="#debouncing-in-reverse">Debouncing in reverse</a>
+      </h2>
+   <p>Since we are discarding all but one event within a time window, why not processs the first event and discard the rest? This is called reverse debounce, leading deobunce, Immediate etc.</p>
+
+      <h3 id="immediate" class="post-heading">
+         <a href="#immediate">Immediate</a>
+      </h3>
+   
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment">// Immediate debounce</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">immediate</span>(<span class="hljs-params">fn, delay</span>) </span>{
+  <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">let</span> isWaiting = <span class="hljs-literal">false</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (!isWaiting) {
+      isWaiting = <span class="hljs-literal">true</span>
+
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+    }
+
+    <span class="hljs-built_in">clearTimeout</span>(timeoutID)
+    timeoutID = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      isWaiting = <span class="hljs-literal">false</span>
+    }, delay)
+  }
+}
+
+<span class="hljs-built_in">window</span>.addEventListener(<span class="hljs-string">&#x27;mousemove&#x27;</span>, immediate(foo, <span class="hljs-number">1000</span>))</code></pre>
+      
+   </figure>
+
+      <h2 id="the-end" class="post-heading">
+         <a href="#the-end">The end</a>
+      </h2>
+   <p>We can write a single function that can handle either mode.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment">// Debounce with immediate flag</span>
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">debounce</span>(<span class="hljs-params">fn, delay, immediate = <span class="hljs-literal">false</span></span>) </span>{
+  <span class="hljs-keyword">let</span> timeoutID = <span class="hljs-literal">null</span>
+  <span class="hljs-keyword">let</span> isWaiting = <span class="hljs-literal">false</span>
+
+  <span class="hljs-keyword">return</span> <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-keyword">if</span> (!isWaiting &amp;&amp; immediate) {
+      isWaiting = <span class="hljs-literal">true</span>
+
+      fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+    }
+
+    <span class="hljs-built_in">clearTimeout</span>(timeoutID)
+    timeoutID = <span class="hljs-built_in">setTimeout</span>(<span class="hljs-function">() =&gt;</span> {
+      <span class="hljs-keyword">if</span> (immediate) {
+        isWaiting = <span class="hljs-literal">false</span>
+      } <span class="hljs-keyword">else</span> {
+        fn.apply(<span class="hljs-built_in">this</span>, <span class="hljs-built_in">arguments</span>)
+      }
+    }, delay)
+  }
+}</code></pre>
+      
+   </figure>
+
+   <figure>
+      <iframe  src="https://codepen.io/zhirzh/embed/vYYQWwM?default-tab=js,result"></iframe>
+      <figcaption>Timing Controls: Debounce+Immediate</figcaption>
+   </figure>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20160716-timing-controls-2---throttle">⟵ Timing Controls 2 - Throttle</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

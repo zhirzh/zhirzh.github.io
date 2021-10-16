@@ -1,0 +1,222 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>SSH Into Private Machines</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="ssh-into-private-machines" class="post-heading"><a href="#ssh-into-private-machines">SSH Into Private Machines</a></h1><aside class="contents">Contents<nav><ul><li><a href="#ssh-into-private-machines">SSH Into Private Machines</a><ul><li><a href="#case-1">
+         Case 1
+      </a></li><li><a href="#case-2">
+         Case 2
+      </a></li><li><a href="#case-3">
+         Case 3
+      </a></li><li><a href="#addendum">
+         Addendum
+      </a></li></ul></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>If we want to use SSH to access remote machines we must ensure that the host has a public IP and is running a SSH server daemon. We can also access private machines (like those behind a firewall) if we have access to at least one public machine.</p>
+<p>Let&#39;s look at 3 cases:</p>
+<ol>
+<li>public/private -&gt; public</li>
+<li>public -&gt; private</li>
+<li>private -&gt; private</li>
+</ol>
+<p>To make things easier, I introduce characters <em>Alice</em> who wants to access a remote machine via SSH and Bob who owns the said machine.</p>
+
+      <h2 id="case-1" class="post-heading">
+         <a href="#case-1">Case 1</a>
+      </h2>
+   <p>Accessing a public machine is pretty straightforward. The first time we connect to a host, we are presented with a fingerprint of that host&#39;s public key. Once we accept the host key, it gets saved in our <code>known_hosts</code> file and is used to verify all future connections. Then we see a password prompt asking for <code>bob</code>&#39;s password. We enter the correct password and we are done.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
+alice@alice_machine$ ssh bob@bob_machine
+
+The authenticity of host <span class="hljs-string">&#x27;bob_machine&#x27;</span> cannot be established.
+ECDSA key fingerprint is SHA256:iqtfGBdyKViB4dV3lY1pYaZizgVwTV/ntQ0k4A1elIE.
+Are you sure you want to <span class="hljs-built_in">continue</span> connecting (yes/no)?
+&gt; yes
+
+Warning: Permanently added <span class="hljs-string">&#x27;bob_machine&#x27;</span> (ECDSA) to the list of known hosts.
+
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
+&gt; ********
+
+<span class="hljs-comment"># Alice on bob_machine as Bob</span>
+bob@bob_machine$ <span class="hljs-comment"># DONE!</span></code></pre>
+      
+   </figure>
+
+   <figure>
+      <img  src="1.jpg" alt="SSH into public machine" />
+      <figcaption>SSH into public machine</figcaption>
+   </figure>
+
+      <h2 id="case-2" class="post-heading">
+         <a href="#case-2">Case 2</a>
+      </h2>
+   <p>In the second case, <code>bob_machine</code> doesn&#39;t have a public IP and so Alice cannot directly connect to it. So now Bob must be the one to initiate a connection to Alice&#39;s public machine so that Alice can use it. Bob has to use Remote Port Forwarding. One pre-requisite for this is that now Alice must also have a SSH server daemon running on her machine.</p>
+<p>Bob connects to <code>alice_machine</code> and opens a forwarding tunnel connecting to <code>port 2222</code> there. Once the tunnel is created, any actions performed against <code>port 2222</code> on <code>alice_machine</code> will be forwarded to <code>port 22</code> on <code>bob_machine</code>.</p>
+<p>The extra <code>-N</code> flag tells SSH that we just want to run a command and don&#39;t need an interactive shell.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment"># Bob on bob_machine</span>
+bob@bob_machine$ ssh -N -R 2222:localhost:22 alice@alice_machine
+
+Password: <span class="hljs-comment"># Alice&#x27;s password</span>
+&gt; ****************</code></pre>
+      
+   </figure>
+<p>Alice can now use this tunnel to access <code>bob_machine</code> by issuing the <code>ssh</code> command against <code>port 2222</code> on her machine but using Bob&#39;s username since the SSH command will be forwarded to <code>bob_machine</code>.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
+alice@alice_machine$ ssh -p 2222 bob@localhost
+
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
+&gt; ********
+
+<span class="hljs-comment"># Alice on bob_machine as Bob</span>
+bob@bob_machine$ <span class="hljs-comment"># DONE!</span></code></pre>
+      
+   </figure>
+
+   <figure>
+      <img  src="2.jpg" alt="SSH into private machine" />
+      <figcaption>SSH into private machine</figcaption>
+   </figure>
+
+      <h2 id="case-3" class="post-heading">
+         <a href="#case-3">Case 3</a>
+      </h2>
+   <p>With both Alice&#39;s &amp; <code>bob_machine</code> hidden from each other, we need a third party&#39;s help. Enter the middle guy, Matt and his <code>matt_machine</code> that can accessed publicly. This splits the problem into two halves that we have already solved.</p>
+
+   <figure>
+      <pre class="hljs"><code>private -&gt; private == (private -&gt; public) + (public -&gt; private)</code></pre>
+      
+   </figure>
+<p>Just like before, Bob starts out by opening a tunnel connection but this time, Bob connects to <code>matt_machine</code>. But instead of <code>port 2222</code>, we open the tunnel on <code>port 22</code> directly.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment"># Bob on bob_machine</span>
+bob@bob_machine$ ssh -N -R 2222:localhost:22 matt@matt_machine
+
+Password: <span class="hljs-comment"># Matt&#x27;s password</span>
+&gt; ****</code></pre>
+      
+   </figure>
+<p>Next, Alice connects to <code>matt_machine</code> as Bob on <code>port 2222</code> and then issues the same SSH command as before.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment"># Alice on alice_machine</span>
+alice@alice_machine$ ssh -p 2222 bob@matt_machine
+
+Password: <span class="hljs-comment"># Bob&#x27;s password</span>
+&gt; ********
+
+<span class="hljs-comment"># Alice on bob_machine as Bob</span>
+bob@bob_machine$ <span class="hljs-comment"># DONE!</span></code></pre>
+      
+   </figure>
+
+   <figure>
+      <img  src="3.jpg" alt="SSH into private machine from another private machine" />
+      <figcaption>SSH into private machine from another private machine</figcaption>
+   </figure>
+
+      <h2 id="addendum" class="post-heading">
+         <a href="#addendum">Addendum</a>
+      </h2>
+   <p>By looking at the code, it might come off as if each user needs access to some other user&#39;s account. This is not true. In my examples, I am using one-user-per-machine and so this appears to be the case but it is totally possible that Alice has an account on <code>bob_machine</code> and doesn&#39;t need Bob&#39;s password. The same is true for all other scenarios.</p>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20170327-animating-dots--dashes">⟵ Animating Dots &amp; Dashes</a></li><li class="related-posts-next"><a href="/20161023-rename-a-function">Rename a function ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

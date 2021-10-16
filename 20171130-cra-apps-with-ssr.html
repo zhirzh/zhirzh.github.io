@@ -1,0 +1,113 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>CRA apps with SSR</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="cra-apps-with-ssr" class="post-heading"><a href="#cra-apps-with-ssr">CRA apps with SSR</a></h1><aside class="contents">Contents<nav><ul><li><a href="#cra-apps-with-ssr">CRA apps with SSR</a></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>This is a multi-post series about how to server-side-render react apps that were built using create-react-app. You can read more about how and why I came up with this below.</p>
+<p><a href="https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-8f5f813d510b">Part 1</a>: Off to a simple start
+I start off simple. A barebones app can’t even deal with css, but helps explain the process involved.</p>
+<p><a href="https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-5-7b5a04e5415c">Part 1.5</a>: Amending mistakes
+Once the base system is up and running, it was time to patch it up. Make it work with css and other stuff.</p>
+<p><a href="https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-2-fb871868216e">Part 2</a>: Integrating Redux
+Redux works great with react. So I had to fit it in. But instead of simply embedding the data. I moved things up a notch.</p>
+<p><a href="https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-3-199d70b4cbe5">Part 3</a>: Routing with react-router
+We’ll explore static and dynamic routing with react-router, along with handling route params and redux integration.</p>
+<p>You can read more on this
+<a href="https://hackernoon.com/making-cra-apps-work-with-ssr-b45f7c23d8db">on hackernoon</a>.
+The code used in the series is
+<a href="https://github.com/zhirzh/cra_with_ssr">here on github</a>.</p>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20171206-prototype-tree">⟵ Prototype Tree</a></li><li class="related-posts-next"><a href="/20170902-write-a-stream-ripper-with-mediarecorder/">Write a stream ripper with MediaRecorder ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

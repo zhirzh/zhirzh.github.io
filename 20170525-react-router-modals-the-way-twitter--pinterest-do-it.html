@@ -1,0 +1,167 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>react-router modals the way Twitter &amp; Pinterest do it</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="react-router-modals-the-way-twitter--pinterest-do-it" class="post-heading"><a href="#react-router-modals-the-way-twitter--pinterest-do-it">react-router modals the way Twitter &amp; Pinterest do it</a></h1><aside class="contents">Contents<nav><ul><li><a href="#react-router-modals-the-way-twitter--pinterest-do-it">react-router modals the way Twitter &amp; Pinterest do it</a><ul><li><a href="#twitter">
+         Twitter
+      </a><ul><li><a href="#pinterest">
+         Pinterest
+      </a></li></ul></li><li><a href="#the-difference">
+         The difference
+      </a></li></ul></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>Twitter and Pinterest are two websites that use modals heavily. I&#39;d go as far as to say that they use modals as a central components of their design, and not just some auxiliary tools.</p>
+<blockquote>
+<p><strong>Update</strong>
+Since the time of posting this article, both Twitter and Pinterest have ditched the &quot;show modal or load container&quot; approach and now load fully-featured screens for each interaction. I have copied the original behavior in a separate <a href="https://github.com/zhirzh/react-router-twitter-pinterest-style">repo</a>. You can try it out <a href="https://zhirzh.github.io/react-router-twitter-pinterest-style">here</a>.</p>
+</blockquote>
+
+      <h2 id="twitter" class="post-heading">
+         <a href="#twitter">Twitter</a>
+      </h2>
+   <p>When a user opens an tweet, URL changes to the tweet&#39;s URL (indicating a navigation) and a modal pops up showing the tweet. Close the modal and you go back to the screen below. Pretty standard stuff.</p>
+<p>What&#39;s different is that if a user opens the tweet in a new tab (vir URL) or reloads the page white the modal is open, a new <em>container element</em> is loaded first and then the tweet loads in the modal. The container is a simple screen resembling the profile of the user who posted the tweet.</p>
+<p>Now when the modal is closed, the URL changes to the profile page of the user who posted the tweet and the container is populated with past tweets.</p>
+<p>The main content can be accessed with <code>$(&#39;.PermalinkOverlay&#39;)</code>.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function">() =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
+    ...
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
+      <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/twitter&quot;</span>
+      <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> (
+        <span class="hljs-tag">&lt;&gt;</span>
+          {isModal ? null : <span class="hljs-tag">&lt;<span class="hljs-name">Container</span> /&gt;</span>}
+
+          <span class="hljs-tag">&lt;<span class="hljs-name">Modal</span> /&gt;</span>
+        <span class="hljs-tag">&lt;/&gt;</span>
+      )}
+    /&gt;</span>
+  &lt;/Switch&gt;
+)</code></pre>
+      
+   </figure>
+
+      <h3 id="pinterest" class="post-heading">
+         <a href="#pinterest">Pinterest</a>
+      </h3>
+   <p>Everything is the same as Twitter until the <em>container element</em> comes into play. However, unlike Twitter, the container that Pinterest loads has extra features related to the content: like, share, bookmark, etc.</p>
+<p>In fact, Pinterest seems to use the same container in the modal as well. You can inspect the common components on either page by accessing it from the console using <code>$(&#39;.Closeup.Module.flex&#39;)</code>.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> App = <span class="hljs-function">() =&gt;</span> (
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">Switch</span> <span class="hljs-attr">location</span>=<span class="hljs-string">{isModal</span> ? <span class="hljs-attr">this.previousLocation</span> <span class="hljs-attr">:</span> <span class="hljs-attr">location</span>}&gt;</span>
+    ...
+    <span class="hljs-tag">&lt;<span class="hljs-name">Route</span>
+      <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/pinterest&quot;</span>
+      <span class="hljs-attr">render</span>=<span class="hljs-string">{()</span> =&gt;</span> {
+        const Component = isModal ? Modal : Container
+
+        return <span class="hljs-tag">&lt;<span class="hljs-name">Component</span> /&gt;</span>
+      }}
+    /&gt;
+  <span class="hljs-tag">&lt;/<span class="hljs-name">Switch</span>&gt;</span></span>
+)</code></pre>
+      
+   </figure>
+
+      <h2 id="the-difference" class="post-heading">
+         <a href="#the-difference">The difference</a>
+      </h2>
+   <p>The difference is in the purpose of the said <em>container element</em>.</p>
+<p>Twitter uses a super-simple container that acts as a placeholder for future content whereas Pinterest loads a component that loads the image, any related metadata and relevant actions.</p>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20170622-obfuscation-with-protext/">⟵ Obfuscation With Protext</a></li><li class="related-posts-next"><a href="/20170327-animating-dots--dashes">Animating Dots &amp; Dashes ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

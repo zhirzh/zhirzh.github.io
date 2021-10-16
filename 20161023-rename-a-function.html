@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>Rename a function</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="rename-a-function" class="post-heading"><a href="#rename-a-function">Rename a function</a></h1><aside class="contents">Contents<nav><ul><li><a href="#rename-a-function">Rename a function</a><ul><li><a href="#display-name">
+         Display name
+      </a></li></ul></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>MDN states that <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/name"><code>Function#name</code> is a read-only property</a> and this gives the false impression that a function cannot be renamed. But that is not the case.</p>
+<p>At the time of writing, JavaScript supports 3 kinds of functions:</p>
+<ul>
+<li>Simple function</li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/async_function">Async Function</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function*">Generator Function</a> (can be async too)</li>
+</ul>
+<p>A function can be defined in 3 ways:</p>
+<ul>
+<li><strong><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function">Function Declaration</a></strong></li>
+<li><a href="https://developer.mozilla.org/docs/web/JavaScript/Reference/Operators/function">Function Expression</a></li>
+<li><a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Functions/Arrow_functions">Arrow Function expression</a></li>
+</ul>
+<p>A function defined as a function declaration or a <em>named</em> expression will have its <code>.name</code> attribute set to the name used in the definition.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-keyword">const</span> a = foo
+<span class="hljs-built_in">console</span>.log(a.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-keyword">const</span> b = <span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">baz</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(b.name) <span class="hljs-comment">//&gt; baz</span>
+
+<span class="hljs-keyword">const</span> c = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{}
+<span class="hljs-built_in">console</span>.log(c.name) <span class="hljs-comment">//&gt; c</span></code></pre>
+      
+   </figure>
+<p>Here&#39;s the property descriptor for the <code>foo()</code> function:</p>
+
+   <figure>
+      <pre class="hljs"><code>{
+    <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;foo&#x27;</span>,
+    <span class="hljs-attr">configurable</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">enumerable</span>: <span class="hljs-literal">false</span>,
+    <span class="hljs-attr">writable</span>: <span class="hljs-literal">false</span>,
+}</code></pre>
+      
+   </figure>
+<p>Since <code>writable</code> is set to <code>false</code> we can&#39;t change the <code>value</code> by simple assignment.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+foo.name = <span class="hljs-string">&#x27;not foo&#x27;</span>
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span></code></pre>
+      
+   </figure>
+<p>However, <code>configurable</code> is set to <code>true</code> and this means that we can override this descriptor with a new one. We can also delete <code>.name</code> if we want to.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; foo</span>
+
+<span class="hljs-built_in">Object</span>.defineProperty(foo, <span class="hljs-string">&#x27;name&#x27;</span>, { <span class="hljs-attr">value</span>: <span class="hljs-string">&#x27;not foo&#x27;</span> })
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; not foo</span>
+
+<span class="hljs-keyword">delete</span> foo.name
+<span class="hljs-built_in">console</span>.log(foo.name) <span class="hljs-comment">//&gt; undefined</span></code></pre>
+      
+   </figure>
+
+      <h2 id="display-name" class="post-heading">
+         <a href="#display-name">Display name</a>
+      </h2>
+   <p>There is a non-standard property <a href="https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Function/displayName"><code>Function#displayName</code></a> that only Firefox supports and is used to display the function with an <em>alter ego</em> in the console.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-comment">// Firefox</span>
+
+<span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">foo</span>(<span class="hljs-params"></span>) </span>{}
+foo.displayName = <span class="hljs-string">&#x27;notFoo&#x27;</span>
+foo <span class="hljs-comment">// &quot;function notFoo()&quot;</span></code></pre>
+      
+   </figure>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20170302-ssh-into-private-machines/">⟵ SSH Into Private Machines</a></li><li class="related-posts-next"><a href="/20161008-flowtype--modern-js/">Flowtype &amp; Modern JS ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

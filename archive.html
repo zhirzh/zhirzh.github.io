@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>Archive</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h2>2017</h2><ul><li><a href="/20171206-prototype-tree">Prototype Tree</a></li><li><a href="/20171130-cra-apps-with-ssr">CRA apps with SSR</a></li><li><a href="/20170902-write-a-stream-ripper-with-mediarecorder/">Write a stream ripper with MediaRecorder</a></li><li><a href="/20170730-correct-blur-with-de-gamma/">Correct blur with de-gamma</a></li><li><a href="/20170622-obfuscation-with-protext/">Obfuscation With Protext</a></li><li><a href="/20170525-react-router-modals-the-way-twitter--pinterest-do-it">react-router modals the way Twitter &amp; Pinterest do it</a></li><li><a href="/20170327-animating-dots--dashes">Animating Dots &amp; Dashes</a></li><li><a href="/20170302-ssh-into-private-machines/">SSH Into Private Machines</a></li></ul><h2>2016</h2><ul><li><a href="/20161023-rename-a-function">Rename a function</a></li><li><a href="/20161008-flowtype--modern-js/">Flowtype &amp; Modern JS</a></li><li><a href="/20160716-timing-controls-2---throttle">Timing Controls 2 - Throttle</a></li><li><a href="/20160715-timing-controls-1---debounce">Timing Controls 1 - Debounce</a></li></ul><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

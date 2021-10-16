@@ -1,0 +1,233 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>Prototype Tree</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="prototype-tree" class="post-heading"><a href="#prototype-tree">Prototype Tree</a></h1><aside class="contents">Contents<nav><ul><li><a href="#prototype-tree">Prototype Tree</a><ul><li><a href="#nodejs">
+         NodeJS
+      </a></li><li><a href="#the-end-4">
+         The End
+      </a></li></ul></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>Anyone who has worked with JS long enough knows something or the other about delegation, prototype chains, <a href="http://2ality.com/2012/10/dunder.html">dunder proto</a> and other similar things.
+There are times when I wonder how complex and deep this chaining can be.
+This past week, however, my curiosity got the best of me and I just had to find the answer for myself.</p>
+<p>I wrote a script that scans the global namespace and generates an <em>inheritance</em> tree (prototype tree, actually).</p>
+<p>There are a few fundamental properties of JS (and probably Java too):</p>
+<ol>
+<li>Every <em>thing</em> is an object.</li>
+<li>All objects delegate to some parent class.</li>
+<li>All delegation chains end at the same <code>null</code>.</li>
+</ol>
+<p>The function <code>parse</code> recursively traverses up a <code>class</code>&#39;s prototype chain and populates a tree structure in <code>data</code>.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">parse</span>(<span class="hljs-params">data, Class</span>) </span>{
+  <span class="hljs-keyword">if</span> (Class === <span class="hljs-literal">null</span>) {
+    <span class="hljs-keyword">return</span> data.children
+  }
+
+  <span class="hljs-keyword">const</span> parentPrototype = <span class="hljs-built_in">Object</span>.getPrototypeOf(Class.prototype)
+  <span class="hljs-keyword">const</span> parentClass =
+    parentPrototype === <span class="hljs-literal">null</span> ? <span class="hljs-literal">null</span> : parentPrototype.constructor
+
+  <span class="hljs-keyword">const</span> prevLevel = parse(data, parentClass)
+  <span class="hljs-keyword">const</span> node = prevLevel.find(<span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> n.name === Class.name)
+
+  <span class="hljs-keyword">if</span> (node !== <span class="hljs-literal">undefined</span>) {
+    <span class="hljs-keyword">return</span> node.children
+  }
+
+  <span class="hljs-keyword">const</span> newNode = {
+    <span class="hljs-attr">name</span>: Class.name,
+    <span class="hljs-attr">children</span>: [],
+  }
+
+  prevLevel.push(newNode)
+
+  <span class="hljs-keyword">return</span> newNode.children
+}</code></pre>
+      
+   </figure>
+<p>This works perfect in browsers because everything that is a part of the JS execution environment, BOM, DOM and CSSOM reside under the global scope <code>window</code>.
+You can see the prototype tree below or in a
+<a href="https://zhirzh.github.io/prototype-tree?mode=browser" target="_blank"></a>new tab
+.</p>
+
+   <figure>
+      <iframe  src="https://zhirzh.github.io/prototype-tree?mode=browser"></iframe>
+      <figcaption>Prototype Tree - Browser</figcaption>
+   </figure>
+<p>There are, however, some differences in the structures present in the global scope.
+Here&#39;s a list of a few examples:</p>
+<ul>
+<li>Different Browsers - The <a href="https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream"><code>captureStream()</code></a> method of <code>&lt;canvas /&gt;</code> element returns an instance of <code>CanvasCaptureMediaStreamTrack</code> on Chrome and of <code>CanvasCaptureMediaStream</code> on Firefox.
+There are many more differences, especially in the availability of SVG elements.</li>
+<li>Browser Versions - As browsers progress, new features are added and older ones canned</li>
+<li>Different Platform - Chrome on android devices has the <a href="https://developer.mozilla.org/docs/Web/API/Web_Bluetooth_API">Bluetooth</a> API, Linux does not.</li>
+<li>Protocol - Chrome allows access to the new <a href="https://developer.mozilla.org/docs/Web/API/Credential_Management_API">Credential</a> and <a href="https://developer.mozilla.org/docs/Web/API/MediaKeys">MediaKeys</a> APIs on secure websites (HTTPS protocol).</li>
+<li>Different Websites - It is no surprise that websites can and will pollute the global scope with things they need.
+In all fairness though, this isn&#39;t all too important.</li>
+</ul>
+
+      <h2 id="nodejs" class="post-heading">
+         <a href="#nodejs">NodeJS</a>
+      </h2>
+   <p>Things are a bit different for NodeJS.
+The default execution environment only contains the language&#39;s minimal feature set.
+All additional features are in separate modules.
+Naively running the code above results in a
+<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank"></a>sparse tree
+.</p>
+
+   <figure>
+      <iframe  src="https://zhirzh.github.io/prototype-tree?mode=node"></iframe>
+      <figcaption>Prototype Tree - NodeJS</figcaption>
+   </figure>
+<p>If we want to <em>look</em> at a module&#39;s structures, we must import the module and traverse it.
+This might sound a simple thing to do, but can make the code really messy.
+Instead, we will invert the module inside-out, adding all its structures to the global scope.</p>
+<p>When polluting the global scope, we need to be wary of name clashes and overwrites.
+This can be avoided by adding the module name to the structure name, i.e., scoping it.</p>
+
+   <figure>
+      <pre class="hljs"><code><span class="hljs-keyword">const</span> modNames = [<span class="hljs-string">&#x27;assert&#x27;</span>, <span class="hljs-string">&#x27;async_hooks&#x27;</span>, ...<span class="hljs-string">&#x27;vm&#x27;</span>, <span class="hljs-string">&#x27;zlib&#x27;</span>]
+
+modNames.forEach(<span class="hljs-function"><span class="hljs-params">modName</span> =&gt;</span> {
+  <span class="hljs-keyword">const</span> mod = <span class="hljs-built_in">require</span>(modName)
+
+  <span class="hljs-built_in">Object</span>.getOwnPropertyNames(mod)
+    .filter(<span class="hljs-function"><span class="hljs-params">propName</span> =&gt;</span> <span class="hljs-regexp">/[A-Z]/</span>.test(propName[<span class="hljs-number">0</span>]))
+    .forEach(<span class="hljs-function"><span class="hljs-params">propName</span> =&gt;</span> {
+      <span class="hljs-keyword">const</span> prop = mod[propName]
+
+      <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> prop.name === <span class="hljs-string">&#x27;string&#x27;</span> &amp;&amp; prop.name.length &gt; <span class="hljs-number">0</span>) {
+        prop.scopedName = prop.name + <span class="hljs-string">&#x27;[&#x27;</span> + modName + <span class="hljs-string">&#x27;]&#x27;</span>
+      }
+
+      <span class="hljs-keyword">const</span> scopedPropName = propName + <span class="hljs-string">&#x27;[&#x27;</span> + modName + <span class="hljs-string">&#x27;]&#x27;</span>
+      <span class="hljs-built_in">global</span>[scopedPropName] = prop
+    })
+})</code></pre>
+      
+   </figure>
+<p>After adding the code above, we get the
+<a href="https://zhirzh.github.io/prototype-tree?mode=node" target="_blank"></a>full tree.</p>
+<p>Notice how the class <code>Server</code> is present at multiple branches and levels in the tree.
+Without scoping the class names, <code>tls</code> would&#39;ve overwritten <code>http</code> server node.</p>
+
+   <figure>
+      <iframe  src="https://zhirzh.github.io/prototype-tree?mode=node"></iframe>
+      <figcaption>Prototype Tree - Core JavaScript</figcaption>
+   </figure>
+
+      <h2 id="the-end-4" class="post-heading">
+         <a href="#the-end-4">The End</a>
+      </h2>
+   <p>Plotting these beautiful <a href="http://bl.ocks.org/robschmuecker/7880033">D3 tree charts</a> revealed more things about JS than I originally sought.</p>
+<p>I also realised just how huge BOM and DOM are.
+Every entity in HTML, SVG, CSS, XML entity has its own class.
+Every WebAPI comes with its structures and each one of them has its class.</p>
+<p>You can further explore the graphs or even plot your own.
+The code and example links are below:</p>
+<ul>
+<li>Code: <a href="https://github.com/zhirzh/prototype-tree">zhirzh/prototype-tree</a></li>
+<li>Demos:<ul>
+<li><a href="https://zhirzh.github.io/prototype-tree?mode=browser">Browser</a></li>
+<li><a href="https://zhirzh.github.io/prototype-tree?mode=node">Node</a></li>
+</ul>
+</li>
+</ul>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-next"><a href="/20171130-cra-apps-with-ssr">CRA apps with SSR ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="en-US"><head><meta charSet="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1"/><title>Correct blur with de-gamma</title><link rel="stylesheet" href="/index.css"/><script src="/sw.js"></script></head><body><div class="fonts-loader"><div>0</div><div style="font-style:italic">1</div><div style="font-weight:bold">2</div><div style="font-weight:bold;font-style:italic">3</div></div><header class="main-nav"><nav><ul class="nav-list"><li><h1><a href="/">Blog</a></h1></li><li><a href="/archive">Archive</a></li><li><a href="/about">About</a></li></ul></nav><button class="lamp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="35" fill="none" stroke-width="10"></circle><path d="M 50 70 A 20 20 0 0 1 50 30"></path><path d="M 50 70 A 20 20 0 0 0 50 30"></path></svg></button><script>
+document.querySelector('.lamp').addEventListener('click', toggleColorScheme)
+
+const darkModeMediaQuery = matchMedia('(prefers-color-scheme: dark)')
+darkModeMediaQuery.addListener(toggleColorScheme)
+
+const documentClasses = document.documentElement.classList
+documentClasses.add(getColorScheme())
+
+function getColorScheme() {
+   const savedColorScheme = localStorage.getItem('color-scheme')
+
+   if (savedColorScheme) {
+      return savedColorScheme === 'dark' ? 'dark' : 'light'
+   }
+
+   return darkModeMediaQuery.matches ? 'dark' : 'light'
+}
+
+function toggleColorScheme() {
+   const colorScheme = getColorScheme()
+   documentClasses.remove(colorScheme)
+
+   const nextColorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+   documentClasses.add(nextColorScheme)
+   localStorage.setItem('color-scheme', nextColorScheme)
+}
+</script></header><h1 id="correct-blur-with-de-gamma" class="post-heading"><a href="#correct-blur-with-de-gamma">Correct blur with de-gamma</a></h1><aside class="contents">Contents<nav><ul><li><a href="#correct-blur-with-de-gamma">Correct blur with de-gamma</a></li></ul></nav></aside><script>
+const topThreshold = 20
+
+const initialTop = 270 // refer index.css for .contents top offset
+const finalTop = 100
+
+let prevTop = 0
+
+window.addEventListener('scroll', contentsMain, {
+   passive: true,
+})
+
+window.addEventListener('resize', contentsMain, {
+   passive: true,
+})
+
+setTimeout(contentsMain, 1000)
+
+function contentsMain() {
+   if (window.innerWidth >= 1300) {
+      moveSidebar()
+      highlightCurrentSection()
+   } else {
+      resetSidebar()
+   }
+}
+
+function highlightCurrentSection() {
+   const $contents = document.querySelector('.contents')
+
+   const $targetLink = Array.from($contents.querySelectorAll('a'))
+      .reverse()
+      .find((a, i) => {
+         const id = a.getAttribute('href').slice(1)
+         const h = document.getElementById(id)
+         const top = h.getBoundingClientRect().top
+         return top < topThreshold
+      })
+
+   if (!$targetLink) {
+      return
+   }
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+
+   $targetLink.classList.add('current-section')
+}
+
+function moveSidebar() {
+   const top = Math.max(finalTop, initialTop - window.scrollY)
+
+   if (prevTop === top) {
+      return
+   }
+
+   prevTop = top
+
+   const $contents = document.querySelector('.contents')
+   $contents.style.top = top + 'px'
+}
+
+function resetSidebar() {
+   const $contents = document.querySelector('.contents')
+
+   $contents.style.top = 0
+
+   $contents.querySelectorAll('.current-section').forEach($currentSection => {
+      $currentSection.classList.remove('current-section')
+   })
+}
+</script><article><p>I saw a video by <a href="https://www.youtube.com/user/minutephysics">minutephysics</a> showing how the &quot;blur&quot; operation in almost all softwares is <em>broken</em> and it is all connected to how humans percieve color and how the RGB color values stored in digital media are not the same as the recorded values.</p>
+<p>
+   <figure>
+      <iframe  src="https://www.youtube.com/embed/LKnqECcg6Gw?rel=0" allow="autoplay;encrypted-media" allowfullscreen=""></iframe>
+      <figcaption>Computer Color is Broken - minutephysics</figcaption>
+   </figure>
+</p>
+<p>According to the <a href="https://wikipedia.org/wiki/Weber%E2%80%93Fechner_law#Vision">Weber–Fechner law</a> humans perceive brightness logarithmically over a moderate range but more like a power-law over a wider range. A grayscale image with color <code>RGB(0.5, 0.5, 0.5)</code> appears halfway between black and white but it is only 22% bright and <code>RGB(0.25, 0.25, 0.25)</code> appears a quarter between black and white is only 5% bright.</p>
+
+   <figure>
+      <img  src="images/rgb.jpg" alt="Human vision is non-linear" />
+      <figcaption>Human vision is non-linear</figcaption>
+   </figure>
+<p>Since we are bad at noticing tiny discrepancies in the brighter regions of the image, we can trade image accuracy for file size by storing the image data as the square-root of the original value. When an image is displayed on the screen, the compressed values are squared-up to give the correct-<em>ish</em> colors.</p>
+
+   <figure>
+      <img  src="images/process.png" alt="Non-linear image storage" />
+      <figcaption>Non-linear image storage</figcaption>
+   </figure>
+<p>Image blurring is done by replacing every pixel in an image with the average of its neighboring pixels.</p>
+
+   <figure>
+      <img  src="images/blur.png" alt="Box blur is simple average of neighboring pixels" />
+      <figcaption>Box blur is simple average of neighboring pixels</figcaption>
+   </figure>
+<p>To get a correct blur, the average must be performed on the original values of the neighboring pixels. The resulting pixels must then be square-rooted</p>
+
+   <figure>
+      <img  src="images/blur-correct.png" alt="Correct blurring" />
+      <figcaption>Correct blurring</figcaption>
+   </figure>
+<p>Unfortunately, most software applications do the transformation on the square-rooted values and yield a much darker result.</p>
+
+   <figure>
+      <img  src="images/blur-incorrect.png" alt="Incorrect blurring" />
+      <figcaption>Incorrect blurring</figcaption>
+   </figure>
+<p>Try out the the <a post="" href="demo"></a>Correct Blur demo to see what a correct blur looks like.</p>
+</article><footer class="related-posts"><nav><ul class="nav-list"><li class="related-posts-prev"><a href="/20170902-write-a-stream-ripper-with-mediarecorder/">⟵ Write a stream ripper with MediaRecorder</a></li><li class="related-posts-next"><a href="/20170622-obfuscation-with-protext/">Obfuscation With Protext ⟶</a></li></ul></nav></footer><footer class="social-links"><nav><ul class="nav-list"><li><a target="_blank" href="https://github.com/zhirzh">github</a></li><div class="dot">•</div><li><a target="_blank" href="https://medium.com/@zhirzh">medium</a></li><div class="dot">•</div><li><a target="_blank" href="https://twitter.com/zhirzh">twitter</a></li><div class="dot">•</div><li><a target="_blank" href="https://www.linkedin.com/in/shirsh-zibbu">linkedin</a></li><div class="dot">•</div><li><a target="_blank" href="https://stackoverflow.com/users/1343488/zhirzh">stackoverflow</a></li></ul></nav></footer></body></html>
