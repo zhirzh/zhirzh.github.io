@@ -2,7 +2,6 @@
 layout: post
 title: The correct blur
 date: 2017-07-30
-tags: canvas experiment webassembly webgl
 ---
 
 In the past week, I learned that the RGB values stored in digital media are not the same as they were recorded.

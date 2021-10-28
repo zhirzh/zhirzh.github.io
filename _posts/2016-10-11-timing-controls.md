@@ -2,7 +2,6 @@
 layout: post
 title: Timing Controls
 date: 2016-10-11
-tags: tutorial timing-controls
 ---
 
 JavaScript follows the Event-driven programming paradigm.

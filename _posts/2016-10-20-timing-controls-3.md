@@ -2,7 +2,6 @@
 layout: post
 title: Timing Controls - Part 3
 date: 2016-10-20
-tags: tutorial timing-controls
 ---
 
 *This is small one.*

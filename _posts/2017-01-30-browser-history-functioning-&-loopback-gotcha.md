@@ -2,7 +2,6 @@
 layout: post
 title: Browser history functioning and loopback gotcha
 date: 2017-01-30
-tags: experiment history tutorial
 ---
 
 According to MDN,

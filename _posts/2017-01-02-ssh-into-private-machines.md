@@ -2,7 +2,6 @@
 layout: post
 title: SSH Into Private Machines
 date: 2017-01-02
-tags: experiment ssh tutorial
 ---
 
 We can use SSH to access remote machines that are:

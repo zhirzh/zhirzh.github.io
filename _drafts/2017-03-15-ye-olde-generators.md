@@ -2,7 +2,6 @@
 layout: post
 title: Ye Olde Generators
 date: 2017-03-15
-tags: es6 tutorial
 ---
 
 Generators are one of the features that were added to the language's core in recent times.

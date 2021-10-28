@@ -2,7 +2,6 @@
 layout: post
 title: Stream capturing with MediaRecorder
 date: 2017-09-02
-tags: experiment
 ---
 
 The new [`MediaRecorder`] WebAPI makes media recording super easy.

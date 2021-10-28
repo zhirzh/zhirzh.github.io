@@ -2,7 +2,6 @@
 layout: post
 title: WebAssembly data flow - Part 2
 date: 2017-08-10
-tags: webassembly tutorial
 ---
 
 In [part 1], we looked at handling data flow for primitive atomics.

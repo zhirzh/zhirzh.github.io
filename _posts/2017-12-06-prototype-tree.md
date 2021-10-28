@@ -2,7 +2,6 @@
 layout: post
 title: Prototype Tree
 date: 2017-12-06
-tags: experiment
 ---
 
 Anyone who has worked with JS long enough knows something or the other about delegation, prototype chains, [dunder proto] and other similar things.

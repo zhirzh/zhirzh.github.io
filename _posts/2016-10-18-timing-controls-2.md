@@ -2,7 +2,6 @@
 layout: post
 title: Timing Controls - Part 2
 date: 2016-10-18
-tags: tutorial timing-controls
 ---
 
 In a [previous post], we looked at some techniques to control the timings of functions (callbacks), triggered when specific events are fired. The techniques are:

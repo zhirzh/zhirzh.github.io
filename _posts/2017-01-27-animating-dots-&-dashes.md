@@ -2,7 +2,6 @@
 layout: post
 title: Animating Dots & Dashes
 date: 2017-01-27
-tags: svg tutorial
 ---
 
 Using dashed-dotted-lines to create *sweet and simple* animations.

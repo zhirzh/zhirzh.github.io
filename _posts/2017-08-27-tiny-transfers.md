@@ -2,7 +2,6 @@
 layout: post
 title: Tiny transfers
 date: 2017-08-27
-tags: experiment tutorial
 ---
 
 It's hard to pin down why JSON transfers is so popular.

@@ -2,7 +2,6 @@
 layout: post
 title: Making CRA apps work with SSR
 date: 2017-11-30
-tags: tutorial
 ---
 
 This is a multi-post series about how to server-side-render react apps that were built using create-react-app. You can read more about how and why I came up with this below.

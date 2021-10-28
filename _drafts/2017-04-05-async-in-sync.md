@@ -2,7 +2,6 @@
 layout: post
 title: Async in sync
 date: 2017-04-05
-tags: es6 tutorial
 ---
 
 For a concurrent language like JS, developers have to deal with a lot of asynchronous workflow.
