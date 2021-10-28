@@ -25,4 +25,4 @@ To keep things short, let's just say that...
 ---
 
 ## Contact
-You can mail me on *{{ site.author.email }}* (my personal mail) or on *{{ site.author.email2 }}* (my university mail).
+You can mail me on *{{ site.author.email }}*.
