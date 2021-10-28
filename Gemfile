@@ -1,6 +1,5 @@
 source "https://rubygems.org"
 
-group :jekyll_plugins do
-  gem "jekyll"
-  gem "jekyll-paginate"
-end
+gem "jekyll", "~> 4.2"
+gem "jekyll-paginate", "~> 1.1"
+gem "webrick", "~> 1.7"
