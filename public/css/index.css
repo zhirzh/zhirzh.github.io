@@ -75,3 +75,14 @@ p {
   font-size: 18px;
   line-height: 1.58;
 }
+
+.related-posts {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.related-posts-next {
+  margin-left: auto;
+}
