@@ -1,8 +1,4 @@
 title: "TryCatch"
 baseurl: ""
 
-plugins: [jekyll-paginate]
-
 permalink: :path
-paginate: 5
-paginate_path: "/:num"
