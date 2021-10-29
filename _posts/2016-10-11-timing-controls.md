@@ -5,12 +5,12 @@ date: 2016-10-11
 ---
 
 JavaScript follows the Event-driven programming paradigm.
-This means that *actions* can activate *reactions*.
+This means that _actions_ can activate _reactions_.
 We call these actions `events`, and reactions `callbacks`.
 A continuous flow of events is called an `event stream`.
 
-The speed at which these *actions* occur is out of our hand.
-But we can control when and how to activate the proper *reactions*.
+The speed at which these _actions_ occur is out of our hand.
+But we can control when and how to activate the proper _reactions_.
 There are some techniques that provide us precise control.
 
 1. Throttle
@@ -22,6 +22,7 @@ There are some techniques that provide us precise control.
 ---
 
 ## Throttle
+
 In modern browsers, a frame rate of 60fps is the target for smooth performance.
 This gives us a time budget of 16.7ms for the processing needed to respond to some event.
 
@@ -48,7 +49,7 @@ function throttledLog() {
 
     then = now;
   }
-};
+}
 
 window.onmousemove = throttledLog;
 ```
@@ -65,7 +66,7 @@ function throttledLog() {
 
     then = now;
   }
-};
+}
 ```
 
 We can also achieve the same result by using `setTimeout()`.
@@ -91,7 +92,7 @@ function throttledLog() {
       safe = true;
     }, delta);
   }
-};
+}
 
 window.onmousemove = throttledLog;
 ```
@@ -100,7 +101,7 @@ window.onmousemove = throttledLog;
 
 ## Debounce
 
-The term *de-bounce* comes form signal processing in electronics, where signal from a mechanical input is fed into a digital circuit.
+The term _de-bounce_ comes form signal processing in electronics, where signal from a mechanical input is fed into a digital circuit.
 Pressing down on a mechanical button might produce multiple signals due of physical properties of the button (metal contacts, springs, mechanical wear etc).
 
 Debouncing means we group together the signals triggered within some small time range and consider only the last signal as the true signal.
@@ -119,13 +120,13 @@ function log() {
 }
 
 function debouncedLog() {
-  clearTimeout(timeoutID);  // reset timer
+  clearTimeout(timeoutID); // reset timer
   timeoutID = setTimeout(() => {
     // wait for some time
     // and check if event happens again
     log();
   }, delta);
-};
+}
 
 window.onkeydown = debouncedLog;
 ```
@@ -161,7 +162,7 @@ function immediatedLog() {
   timeoutID = setTimeout(() => {
     safe = true;
   }, delta);
-};
+}
 
 window.onkeydown = immediatedLog;
 ```

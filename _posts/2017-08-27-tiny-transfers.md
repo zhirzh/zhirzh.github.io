@@ -9,7 +9,7 @@ But one thing's for sure, it is **not** the most efficient when it comes to data
 
 The nested nature of JSON makes it prone to redundant storage and transferring redundant JSON files only puts strain on the server's and the client's bandwidth.
 
-It is always a good idea to *deflate* your JSON data before transferring to the other side.
+It is always a good idea to _deflate_ your JSON data before transferring to the other side.
 
 <!-- preview -->
 
@@ -112,7 +112,9 @@ const allDoodles = require(allDoodlesPath);
 
 const keys = {};
 allDoodles.forEach(doodle => {
-  Object.keys(doodle).forEach(k => keys[k] = doodle[k].constructor);
+  Object.keys(doodle).forEach(k => {
+    keys[k] = doodle[k].constructor;
+  });
 });
 
 console.log(keys);
@@ -186,9 +188,11 @@ Now we can perform the actual normalisation.
 There are 3 steps:
 
 1. Extract unique instances for all Models:
-  * Doodle
-  * Country
-  * Tag
+
+- Doodle
+- Country
+- Tag
+
 2. Replace redundant instances with unique IDs
 3. Save all model instances as separate JSON files
 
@@ -250,11 +254,11 @@ allDoodles.forEach(doodle => {
   });
 
   doodle.countries = doodle.countries.map(country =>
-    uniqueCountries.indexOf(country.trim().toLowerCase()),
+    uniqueCountries.indexOf(country.trim().toLowerCase())
   );
 
   doodle.tags = doodle.tags.map(tag =>
-    uniqueTags.indexOf(tag.trim().toLowerCase()),
+    uniqueTags.indexOf(tag.trim().toLowerCase())
   );
 });
 
@@ -274,17 +278,17 @@ This means we can further reduce file sizes by replace long repeating URLs.
 
 All doodles can have any of the following URL types:
 
-* `alternate_url`
-* `call_to_action_image_url`
-* `hires_url`
-* `standalone_html`
-* `url`
+- `alternate_url`
+- `call_to_action_image_url`
+- `hires_url`
+- `standalone_html`
+- `url`
 
 And all of those URLs have the following common starting paths:
 
-* `https://lh3.googleusercontent.com`
-* `https://www.google.com/logos/doodles`
-* `https://www.google.com/logos`
+- `https://lh3.googleusercontent.com`
+- `https://www.google.com/logos/doodles`
+- `https://www.google.com/logos`
 
 ```js
 // normalise.js
@@ -432,10 +436,10 @@ $ du -sh doodles.clean.json
 The final part is packaging and compression.
 At the end of normalisation, we end up the following files:
 
-* `schema.json`
-* `countries.json`
-* `tags.json`
-* `urls.json`
+- `schema.json`
+- `countries.json`
+- `tags.json`
+- `urls.json`
 
 Fetching these 4 files require 8 round trips - from the client, to the server, and back to the client.
 On slow or intermittent connection, chances of any of those requests failing are high.
@@ -500,6 +504,6 @@ And higher redundancy will mean better gains.
 The entire code used here is available in [this gist].
 
 [origins]: https://developer.mozilla.org/docs/Web/HTTP/Headers/Origin
-[`LZMA`]: https://wikipedia.org/wiki/Lempel–Ziv–Markov_chain_algorithm
+[`lzma`]: https://wikipedia.org/wiki/Lempel–Ziv–Markov_chain_algorithm
 [`brotli`]: https://wikipedia.org/wiki/Brotli
 [this gist]: https://gist.github.com/zhirzh/7666c2742a2c7dfbd9859b05ee76aef1

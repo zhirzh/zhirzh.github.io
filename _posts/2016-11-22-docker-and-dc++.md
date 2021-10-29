@@ -19,7 +19,7 @@ But that wasn't the case.
 I installed other DC++ clients - [EiskaltDC++], [Valknut] - hoping that there's something wrong with my original client.
 But I was let down, yet again.
 
-I thought to myself, *maybe I don't need* docker.
+I thought to myself, _maybe I don't need_ docker.
 
 <!-- preview -->
 
@@ -48,8 +48,8 @@ And for some reason, LinuxDC++ binds to that interface, ditching the ethernet/wi
 Although I am still new to docker, I have a strong feeling that there's some config option that prevents this issue from happening.
 I was hoping you could tell me what it was, dear reader.
 
-[Docker]: https://www.docker.com/
-[LinuxDC++]: https://launchpad.net/linuxdcpp/
-[EiskaltDC++]: https://github.com/eiskaltdcpp/eiskaltdcpp/
-[Valknut]: http://wxdcgui.sourceforge.net/
-[Tarun]: http://reachtarunhere.github.io/about/
+[docker]: https://www.docker.com/
+[linuxdc++]: https://launchpad.net/linuxdcpp/
+[eiskaltdc++]: https://github.com/eiskaltdcpp/eiskaltdcpp/
+[valknut]: http://wxdcgui.sourceforge.net/
+[tarun]: http://reachtarunhere.github.io/about/

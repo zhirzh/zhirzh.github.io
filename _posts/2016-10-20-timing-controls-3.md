@@ -4,7 +4,7 @@ title: Timing Controls - Part 3
 date: 2016-10-20
 ---
 
-*This is small one.*
+_This is small one._
 
 In a [previous post], we looked at higher order implementations of the techniques discussed in [another post].
 
@@ -41,19 +41,19 @@ We can use `requestAnimationFrame` as an alternative to `setTimeout` for our Thr
 
 ```js
 function throttle(fn, delta, context) {
-  return function() {
+  return (...args) => {
     let then = 0;
 
     function repeat(now) {
       requestAnimationFrame(repeat);
       if (now - then >= delta) {
         then = now;
-        fn.call(context, arguments);
+        fn.apply(context, args);
       }
     }
 
     requestAnimationFrame(repeat);
-  }
+  };
 }
 ```
 

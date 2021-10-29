@@ -9,8 +9,6 @@ Modals are the de facto tool used to show notices and alerts, related content, a
 Twitter and Pinterest are two websites that use modals heavily.
 I'd go as far as to say that they use modals as a central components of their design, and not just some auxiliary tools.
 
-
-
 <!-- preview -->
 
 ## The routing layouts
@@ -21,14 +19,13 @@ If not, I suggest a tour of the respective websites.
 
 ### [Twitter]
 
-When the user clicks on an tweet, the URL changes, but no *real* navigation happens.
+When the user clicks on an tweet, the URL changes, but no _real_ navigation happens.
 Instead, a modal opens up containing the tweet.
 Close the modal and the URL changes back.
 
-This is the standard routine for *almost* all modals on every website out there.
+This is the standard routine for _almost_ all modals on every website out there.
 
-
-When the user opens the tweet in a new tab or reload a page with the modal open, a new *container element* is loaded first.
+When the user opens the tweet in a new tab or reload a page with the modal open, a new _container element_ is loaded first.
 And the tweet is shown in a modal.
 
 The container doesn't hold any real value though - it's a dummy.
@@ -58,7 +55,7 @@ The main content can be accessed with `$('.PermalinkOverlay')`.
 
 The standard routine is the same - click on an image, the URL changes, modal opens with the image, close the modal and we're back.
 
-But when the user opens the image in a new tab or reload a page with the modal open, a new *container element* is loaded first and the image is loaded in it.
+But when the user opens the image in a new tab or reload a page with the modal open, a new _container element_ is loaded first and the image is loaded in it.
 
 However, unlike Twitter, the container that Pinterest uses isn't a dummy one.
 It has extra features, such as: like, share, bookmark, etc.
@@ -84,7 +81,7 @@ You can inspect the common components on either page by accessing it from the co
 
 ## The difference
 
-The difference is in the purpose of the said *container element*.
+The difference is in the purpose of the said _container element_.
 
 Twitter uses a super-simple container that acts as a placeholder for future content and has absolute tiny filesize.
 This helps cut down data transfers, since other tweets by the same user are loaded if and when the tweet modal is closed.
@@ -102,7 +99,7 @@ Especially in a much larger app with a ton of routes - that'd be great.
 
 Here's the [repo] and a working [demo].
 
-[Pinterest]: https://pinterest.com/
-[Twitter]: https://twitter.com/
+[pinterest]: https://pinterest.com/
+[twitter]: https://twitter.com/
 [repo]: https://github.com/zhirzh/react-router-twitter-pinterest-style
 [demo]: https://zhirzh.github.io/react-router-twitter-pinterest-style/

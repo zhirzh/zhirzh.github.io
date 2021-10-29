@@ -13,12 +13,13 @@ Just watch this talk by Alexander Pope - [ServiceWorkers Outbreak].
 <!-- preview -->
 
 ## ServiceWorker libraries
+
 In 2015, Google launched [`sw-precache`] and [`sw-toolbox`] for making our lives easier.
 
 ### sw-precache
 
 At first glance, it might appear to be a tool to simply cache static assets on page load.
-Turns out, it is a *one-size-fits-all* solution for writing service-workers.
+Turns out, it is a _one-size-fits-all_ solution for writing service-workers.
 
 With a vast array of options to use, one can write a service-worker in a simple and declarative manner, without having to worry about implementations.
 
@@ -102,15 +103,15 @@ Here's a list of options that I've worked out from the source.
 | runtimeCaching                                         | runtimeCaching                                      |
 | skipWaiting                                            | skipWaiting                                         |
 | staticFileGlobs                                        | staticFileGlobs <br> **globPatterns**               |
-|importScripts                                           |                                                     |
-|logger                                                  |                                                     |
-|templateFilePath                                        |                                                     |
-|verbose                                                 |                                                     |
+| importScripts                                          |                                                     |
+| logger                                                 |                                                     |
+| templateFilePath                                       |                                                     |
+| verbose                                                |                                                     |
 |                                                        | globDirectory                                       |
 |                                                        | globIgnores                                         |
 |                                                        | swDest                                              |
 |                                                        | swSrc                                               |
-| *replacePrefix <br> stripPrefix <br> stripPrefixMulti* | *modifyUrlPrefix*                                   |
+| _replacePrefix <br> stripPrefix <br> stripPrefixMulti_ | _modifyUrlPrefix_                                   |
 | ------------------------------------------------------ | --------------------------------------------------- |
 
 ## Usage
@@ -120,21 +121,21 @@ How to use Workbox, you say?
 Workbox's [official website] has all the documentation and loads of examples to help get started.
 Just to help you out, here are some common links:
 
-* [webpack]
-* [gulp]
-* [npm-scripts]
-* [cli]
+- [webpack]
+- [gulp]
+- [npm-scripts]
+- [cli]
 
 **A word of caution**.
 At the time of writing, Workbox is pretty young ([v1.0.1]) and the docs feel inadequate.
 If you're a power-user and want to dive deep into docs before using third party software, you might not like working with Workbox.
 
-[ServiceWorkers Outbreak]: https://www.youtube.com/watch?v=CPP9ew4Co0M
+[serviceworkers outbreak]: https://www.youtube.com/watch?v=CPP9ew4Co0M
 [`sw-precache`]: https://github.com/googlechrome/sw-precache
 [`sw-toolbox`]: https://github.com/googlechrome/sw-toolbox
-[`importScripts()`]: https://developer.mozilla.org/docs/Web/API/WorkerGlobalScope/importScripts
+[`importscripts()`]: https://developer.mozilla.org/docs/Web/API/WorkerGlobalScope/importScripts
 [here]: https://github.com/googlechrome/sw-precache#future-of-service-worker-tooling
-[Workbox]: https://github.com/googlechrome/workbox
+[workbox]: https://github.com/googlechrome/workbox
 [official website]: https://workboxjs.org
 [v1.0.1]: https://github.com/GoogleChrome/workbox/releases
 [webpack]: https://workboxjs.org/get-started/webpack.html

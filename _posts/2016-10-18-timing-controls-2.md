@@ -17,8 +17,8 @@ In this post, we will see how those techniques can be implemented as a generic A
 We will work with the Debounce implementation:
 
 ```js
-var delta = 1000;
-var timeoutID = null;
+const delta = 1000;
+let timeoutID = null;
 
 function foo() {
   console.log('bar');
@@ -29,7 +29,7 @@ function debouncedFoo() {
   timeoutID = setTimeout(() => {
     foo();
   }, delta);
-};
+}
 
 window.onkeydown = debouncedFoo;
 ```
@@ -51,7 +51,7 @@ function debouncedFoo(x, y, z) {
   // ...
   foo(x, y, z);
   // ...
-};
+}
 ```
 
 ### 2. Functions with variable arity
@@ -67,12 +67,10 @@ function foo(a, b, c) {
   // ...
 }
 
-function debouncedFoo(arguments) {
-  var args = arguments;
+function debouncedFoo(...args) {
+  foo.apply(null, args);
   // ...
-    foo.apply(null, args);
-  // ...
-};
+}
 ```
 
 ### 3. Higher order function wrappers
@@ -82,26 +80,26 @@ It's better if the callback and the timing can act separately.
 We can achieve this by using Higher order functions.
 
 ```js
-var delta = 1000;
+const delta = 1000;
 
 function log(e) {
   console.log(e);
 }
 
 function debounce(fn, delta) {
-  var timeoutID = null;
+  let timeoutID = null;
 
-  return () => {
+  return (...args) => {
     clearTimeout(timeoutID);
 
-    var args = arguments;
+    const args = arguments;
     timeoutID = setTimeout(() => {
       fn.apply(null, args);
     }, delta);
   };
 }
 
-var debouncedLog = debounce(log, delta);
+const debouncedLog = debounce(log, delta);
 window.onkeydown = debouncedLog;
 ```
 
@@ -112,7 +110,6 @@ But there's another problem that arises - context loss.
 
 When calling `.apply()` on a function, we must also pass the proper context for functions that use `this` internally.
 Therefore, it must be provided externally.
-
 
 ```js
 // ...
@@ -127,6 +124,7 @@ function debounce(fn, delta, context) {
 ---
 
 ## Conclusion
+
 Finally, we arrive at the Debounce HOF.
 Here's a demo ...
 
@@ -139,12 +137,12 @@ Here's a demo ...
 
 ```js
 function debounce(fn, delta, context) {
-  var timeoutID = null;
+  let timeoutID = null;
 
-  return () => {
+  return (...args) => {
     clearTimeout(timeoutID);
 
-    var args = arguments;
+    const args = arguments;
     timeoutID = setTimeout(() => {
       fn.apply(context, args);
     }, delta);
@@ -156,11 +154,11 @@ function debounce(fn, delta, context) {
 
 ```js
 function immediate(fn, delta, context) {
-  var timeoutID = null;
-  var safe = true;
+  let timeoutID = null;
+  const safe = true;
 
-  return () => {
-    var args = arguments;
+  return (...args) => {
+    const args = arguments;
 
     if (safe) {
       fn.call(context, args);
@@ -179,10 +177,10 @@ function immediate(fn, delta, context) {
 
 ```js
 function throttle(fn, delta, context) {
-  var safe = true;
+  const safe = true;
 
-  return () => {
-    var args = arguments;
+  return (...args) => {
+    const args = arguments;
 
     if (safe) {
       fn.call(context, args);
@@ -208,6 +206,7 @@ In the [final post], we will see an implementation of Throttle that works well w
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 [`.apply()`]: (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function/apply)
+
 [previous post]: {% post_url 2016-10-11-timing-controls %}
 [higher order functions]: https://en.wikipedia.org/wiki/Higher-order_function
 [`arguments` object]: https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Functions/arguments

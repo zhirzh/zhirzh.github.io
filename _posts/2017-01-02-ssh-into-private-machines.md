@@ -5,6 +5,7 @@ date: 2017-01-02
 ---
 
 We can use SSH to access remote machines that are:
+
 1. running an SSH server/daemon
 2. **publicly** accessible
 
@@ -34,7 +35,8 @@ If you have the password/key needed, you will gain machine access.
 
 ## Case 1
 
-To access a private machine's SSH server, we will use *remote port forwarding*.
+To access a private machine's SSH server, we will use _remote port forwarding_.
+
 > Remote Port Forwarding: A port on the remote (server) host is forwarded to a port on local host - [stackexchange answer]
 
 We will connect `port 22` on our machine (the **private** machine) to `port 2222` on the remote machine.
@@ -55,7 +57,7 @@ $ ssh -R 2222:localhost:22 remote_username@remote_machine
 $ ssh -p 2222 local_username@localhost
 ```
 
-And *voilà*.
+And _voilà_.
 
 ---
 

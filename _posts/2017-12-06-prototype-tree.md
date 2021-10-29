@@ -10,11 +10,11 @@ This past week, however, my curiosity got the best of me and I just had to find 
 
 <!-- preview -->
 
-I wrote a script that scans the global namespace and generates an *inheritance* tree (prototype tree, actually).
+I wrote a script that scans the global namespace and generates an _inheritance_ tree (prototype tree, actually).
 
 There are a few fundamental properties of JS (and probably Java too):
 
-1. Every *thing* is an object.
+1. Every _thing_ is an object.
 2. All objects delegate to some parent class.
 3. All delegation chains end at the same `null`.
 <!-- 4. All objects have the common ancestor [`Object` class]\*. -->
@@ -28,9 +28,7 @@ function parse(data, Class) {
   }
 
   const parentPrototype = Object.getPrototypeOf(Class.prototype);
-  const parentClass = parentPrototype === null 
-    ? null 
-    : parentPrototype.constructor;
+  const parentClass = parentPrototype && parentPrototype.constructor;
 
   const prevLevel = parse(data, parentClass);
   const node = prevLevel.find(n => n.name === Class.name);
@@ -64,13 +62,13 @@ You can see the prototype tree below or in a
 There are, however, some differences in the structures present in the global scope.
 Here's a list of a few examples:
 
-* Different Browsers - The [`captureStream()`] method of `<canvas />` element returns an instance of `CanvasCaptureMediaStreamTrack` on Chrome and of `CanvasCaptureMediaStream` on Firefox.
-There are many more differences, especially in the availability of SVG elements.
-* Browser Versions - As browsers progress, new features are added and older ones canned
-* Different Platform - Chrome on android devices has the [Bluetooth] API, Linux does not.
-* Protocol - Chrome allows access to the new [Credential] and [MediaKeys] APIs on secure websites (HTTPS protocol).
-* Different Websites - It is no surprise that websites can and will pollute the global scope with things they need.
-In all fairness though, this isn't all too important.
+- Different Browsers - The [`captureStream()`] method of `<canvas />` element returns an instance of `CanvasCaptureMediaStreamTrack` on Chrome and of `CanvasCaptureMediaStream` on Firefox.
+  There are many more differences, especially in the availability of SVG elements.
+- Browser Versions - As browsers progress, new features are added and older ones canned
+- Different Platform - Chrome on android devices has the [Bluetooth] API, Linux does not.
+- Protocol - Chrome allows access to the new [Credential] and [MediaKeys] APIs on secure websites (HTTPS protocol).
+- Different Websites - It is no surprise that websites can and will pollute the global scope with things they need.
+  In all fairness though, this isn't all too important.
 
 <br/>
 
@@ -89,7 +87,7 @@ Naively running the code above results in a
   style="height: 400px"
 ></iframe>
 
-If we want to *look* at a module's structures, we must import the module and traverse it.
+If we want to _look_ at a module's structures, we must import the module and traverse it.
 This might sound a simple thing to do, but can make the code really messy.
 Instead, we will invert the module inside-out, adding all its structures to the global scope.
 
@@ -97,21 +95,14 @@ When polluting the global scope, we need to be wary of name clashes and overwrit
 This can be avoided by adding the module name to the structure name, i.e., scoping it.
 
 ```js
-const modNames = [
-  'assert',
-  'async_hooks',
-  ...
-  'vm',
-  'zlib',
-];
+const modNames = ['assert', 'async_hooks', ...'vm', 'zlib'];
 
-
-modNames.forEach((modName) => {
+modNames.forEach(modName => {
   const mod = require(modName);
 
   Object.getOwnPropertyNames(mod)
     .filter(propName => /[A-Z]/.test(propName[0]))
-    .forEach((propName) => {
+    .forEach(propName => {
       const prop = mod[propName];
 
       if (typeof prop.name === 'string' && prop.name.length > 0) {
@@ -146,8 +137,8 @@ It isn't a coincidence that everything is connected to the [`Object` class].
 This is by design of the language.
 
 We can also create orphan objects - objects not connected to `Object`.
-By delegating to orphans, we can write classes that are free of any delegation based *side effects*.
-This is great for someone who wants to create [interfaces] or [abstract classes], since 
+By delegating to orphans, we can write classes that are free of any delegation based _side effects_.
+This is great for someone who wants to create [interfaces] or [abstract classes], since
 
 ```js
 const orphan = Object.create(null);
@@ -159,8 +150,6 @@ console.log(orphan);
 console.log(Object.getPrototypeOf(orphan));
 // null
 
-
-
 const obj = Object.create(orphan);
 obj.bar = 222;
 
@@ -169,8 +158,6 @@ console.log(obj);
 
 console.log(Object.getPrototypeOf(obj));
 // { foo: 111 }  <---  orphan
-
-
 
 class Animal {}
 Object.setPrototypeOf(Animal.prototype, orphan);
@@ -193,8 +180,8 @@ Object.setPrototypeOf(Bacteria.prototype, obj);
 Its behavior has only been standardized as a legacy feature.
 Instead, when working with `[[Prototype]]`, use:
 
-* [`Object.getPrototypeOf()`] for reading
-* and [`Object.setPrototypeOf()`] for writing
+- [`Object.getPrototypeOf()`] for reading
+- and [`Object.setPrototypeOf()`] for writing
 
 ```js
 const foo = Object.create(null);
@@ -216,12 +203,13 @@ Plotting these beautiful [D3 tree charts] revealed more things about JS than I o
 
 The minimal set is tiny compared.
 Everything on the sparse tree can be grouped into:
-* **Primitive Data Types** - Number, String, Boolean &hellip;
-* **Abstract Data Types** - Function, Object &hellip;
-* **Container Data Types** - Array, Map, Set &hellip;
-* **Timers** - setTimeout, setInterval &hellip;
-* **Errors** - SyntaxError, ReferenceError &hellip;
-* **Misc items** - Promise, RegExp, TypedArrays &hellip;
+
+- **Primitive Data Types** - Number, String, Boolean &hellip;
+- **Abstract Data Types** - Function, Object &hellip;
+- **Container Data Types** - Array, Map, Set &hellip;
+- **Timers** - setTimeout, setInterval &hellip;
+- **Errors** - SyntaxError, ReferenceError &hellip;
+- **Misc items** - Promise, RegExp, TypedArrays &hellip;
 
 I also realised just how huge BOM and DOM are.
 Every entity in HTML, SVG, CSS, XML entity has its own class.
@@ -229,22 +217,23 @@ Every WebAPI comes with its structures and each one of them has its class.
 
 You can further explore the graphs or even plot your own.
 The code and example links are below:
-* Code: [gists/2017-12-06-prototype-tree](https://github.com/zhirzh/zhirzh.github.io/tree/master/gists/2017-12-06-prototype-tree/)
-* Demos:
-  * [Browser](https://zhirzh.github.io/prototype-tree/build/index.html?data=browser)
-  * [Node (sparse)](https://zhirzh.github.io/prototype-tree/build/index.html?data=node-sparse)
-  * [Node](https://zhirzh.github.io/prototype-tree/build/index.html?data=node)
-  * [Orphan](https://zhirzh.github.io/prototype-tree/build/index.html?data=orphan)
+
+- Code: [gists/2017-12-06-prototype-tree](https://github.com/zhirzh/zhirzh.github.io/tree/master/gists/2017-12-06-prototype-tree/)
+- Demos:
+  - [Browser](https://zhirzh.github.io/prototype-tree/build/index.html?data=browser)
+  - [Node (sparse)](https://zhirzh.github.io/prototype-tree/build/index.html?data=node-sparse)
+  - [Node](https://zhirzh.github.io/prototype-tree/build/index.html?data=node)
+  - [Orphan](https://zhirzh.github.io/prototype-tree/build/index.html?data=orphan)
 
 [dunder proto]: http://2ality.com/2012/10/dunder.html
-[`Object` class]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
-[D3 tree charts]: http://bl.ocks.org/robschmuecker/7880033
+[`object` class]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object
+[d3 tree charts]: http://bl.ocks.org/robschmuecker/7880033
 [interfaces]: https://www.javatpoint.com/interface-in-java
 [abstract classes]: https://www.javatpoint.com/abstract-class-in-java
-[`Object.getPrototypeOf()`]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf
-[`Object.setPrototypeOf()`]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf
-[on MDN]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
-[`captureStream()`]: https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream
-[Bluetooth]: https://developer.mozilla.org/docs/Web/API/Web_Bluetooth_API
-[Credential]: https://developer.mozilla.org/docs/Web/API/Credential_Management_API
-[MediaKeys]: https://developer.mozilla.org/docs/Web/API/MediaKeys
+[`object.getprototypeof()`]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/getPrototypeOf
+[`object.setprototypeof()`]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/setPrototypeOf
+[on mdn]: https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/proto
+[`capturestream()`]: https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream
+[bluetooth]: https://developer.mozilla.org/docs/Web/API/Web_Bluetooth_API
+[credential]: https://developer.mozilla.org/docs/Web/API/Credential_Management_API
+[mediakeys]: https://developer.mozilla.org/docs/Web/API/MediaKeys

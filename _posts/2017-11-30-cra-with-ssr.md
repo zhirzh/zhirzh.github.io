@@ -18,10 +18,10 @@ Redux works great with react. So I had to fit it in. But instead of simply embed
 [Part 3]\: Routing with react-router
 We’ll explore static and dynamic routing with react-router, along with handling route params and redux integration.
 
-[Part 1]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-8f5f813d510b
-[Part 1.5]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-5-7b5a04e5415c
-[Part 2]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-2-fb871868216e
-[Part 3]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-3-199d70b4cbe5
+[part 1]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-8f5f813d510b
+[part 1.5]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-1-5-7b5a04e5415c
+[part 2]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-2-fb871868216e
+[part 3]: https://medium.com/@zhirzh/making-cra-apps-work-with-ssr-part-3-199d70b4cbe5
 
 You can read more on this
 [on hackernoon](https://hackernoon.com/making-cra-apps-work-with-ssr-b45f7c23d8db).

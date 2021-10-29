@@ -9,7 +9,7 @@ Obfuscation techniques, such as markup mangling, work great for deterring people
 Beyond that, mangling serves no purpose for the end user.
 
 Recently, I came across a new and very unique obfuscation technique.
-One that focuses on the content *rendered* on the screen, not the underlying code.
+One that focuses on the content _rendered_ on the screen, not the underlying code.
 
 <!-- preview -->
 
@@ -22,7 +22,7 @@ They implemented a special encoder mechanism that made this ...
 
 ![]({{site.baseurl}}/media/2017-07-22-obfuscation-with-protext/protext off.png)
 
-... *render* as this in the browser.
+... _render_ as this in the browser.
 
 ![]({{site.baseurl}}/media/2017-07-22-obfuscation-with-protext/protext on.png)
 
@@ -36,9 +36,9 @@ If we tried to copy/paste the text, we'd end up with the gibberish.
 
 ## Understanding the mechanism
 
-The content being served is gibberish, but it *renders* to be readable in the browser.
+The content being served is gibberish, but it _renders_ to be readable in the browser.
 This points to some clever use of CSS.
-[Inspecting] the text made it clear that a **custom font** was used to make one character *render* as another.
+[Inspecting] the text made it clear that a **custom font** was used to make one character _render_ as another.
 
 Just by this amount of information, we can come up with a possible pipeline for the encoder.
 
@@ -56,13 +56,14 @@ But how to do the mapping in fonts?
 In the digital age, a glyph is the visual representation of a character and a font is the collection of all such glyphs that match a certain aesthetic.
 
 To main correct presentation, each glyph as 2 important components:
+
 1. `unicode` - The unicode value of the character.
 2. `path` - The SVG path that gives shape on screen.
 
-To make one character *render* as another, all we need to do is play these 2 values.
+To make one character _render_ as another, all we need to do is play these 2 values.
 
 In the iframe below, each line has characters a-z.
-By using custom font, it is possible to change how a character *renders* on the screen.
+By using custom font, it is possible to change how a character _renders_ on the screen.
 
 <iframe class="demo" frameborder="0" src="{{site.baseurl}}/gists/2017-07-22-obfuscation-with-protext/index.html"></iframe>
 
@@ -108,11 +109,11 @@ Content obfuscation isn't something we need everything.
 But when we do need it, coming up with a novel implementation can be tough.
 If you ever encounter such a scenario, do try [`protext`].
 
-*PS*: My solution code is [here].
+_PS_: My solution code is [here].
 I also made an app out of solution: [protext-decoder].
 
-[Shiv Deepak]: https://www.linkedin.com/in/shivdeepak
-[Inspecting]: https://developers.google.com/web/tools/chrome-devtools/inspect-styles
+[shiv deepak]: https://www.linkedin.com/in/shivdeepak
+[inspecting]: https://developers.google.com/web/tools/chrome-devtools/inspect-styles
 [node package `protext`]: https://github.com/zhirzh/protext
 [webpack plugin `protext-webpack-plugin`]: https://github.com/zhirzh/protext-webpack-plugin
 [here]: https://bitbucket.org/zhirzh/protext-decoder

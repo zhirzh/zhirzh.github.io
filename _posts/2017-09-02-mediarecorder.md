@@ -9,17 +9,17 @@ It allows storing chunks of data from a [media stream] as blobs, which can later
 As time passes, more sources of media streams are added.
 We can capture media from:
 
-* Media Devices
-* Canvas
-* Media Elements:
-  * `<video />`
-  * `<audio />`
+- Media Devices
+- Canvas
+- Media Elements:
+  - `<video />`
+  - `<audio />`
 
 <!-- preview -->
 
 ---
 
-##  MediaStream
+## MediaStream
 
 ### Media Devices
 
@@ -27,7 +27,7 @@ The key component in using `MediaRecorder` is having access to a MediaStream.
 The early uses of MediaStreams came with the use of `getUserMedia()` method to gain access to local media devices.
 
 ```js
-navigator.mediaDevices.getUserMedia().then(function(stream) {
+navigator.mediaDevices.getUserMedia().then(stream => {
   console.log('Captured MediaStream:', stream);
 });
 ```
@@ -55,11 +55,11 @@ This difference will be important later.
 
 In modern browsers, the `HTMLMediaElement` interface also adds the method
 [`captureStream()`](https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream)
-that *pipes* the media content into a continuous stream.
+that _pipes_ the media content into a continuous stream.
 Since `HTMLMediaElement` is implemented by both `<video />` and `<audio />` elements, we can capture media streams from both these elements.
 
 But there's a difference.
-Here, the frames are captured in *real time*.
+Here, the frames are captured in _real time_.
 If the video being recorded is paused, the frozen frame will be captured repeatedly.
 
 **Note:** To use this method in Google Chrome, you need to enable the "Experimental Web Platform features" flag.
@@ -87,9 +87,9 @@ const recorder = new MediaRecorder(stream);
 // as `dataavailable` events on the `recorder`.
 // These captured "chunks" can be collected in an array.
 const allChunks = [];
-recorder.ondataavailable = function(e) {
+recorder.ondataavailable = e => {
   allChunks.push(e.data);
-}
+};
 
 // Start recording
 recorder.start();
@@ -130,10 +130,10 @@ link.remove();
 
 The constructor takes an optional argument that can have the following options:
 
-* `mimeType`: The mime type to use for the recording.
-* `audioBitsPerSecond`: The bitrate for the audio component of the media.
-* `videoBitsPerSecond`: The bitrate for the video component of the media.
-* `bitsPerSecond`: The bitrate for both, the audio and the video components of the media.
+- `mimeType`: The mime type to use for the recording.
+- `audioBitsPerSecond`: The bitrate for the audio component of the media.
+- `videoBitsPerSecond`: The bitrate for the video component of the media.
+- `bitsPerSecond`: The bitrate for both, the audio and the video components of the media.
 
 If `bitsPerSecond` is provided with one of `audioBitsPerSecond` or `videoBitsPerSecond`, it will be applied to the missing one.
 
@@ -155,7 +155,7 @@ To check if a codec is supported, use [`MediaRecorder.isTypeSupported()`].
 
 ```js
 MediaRecorder.isTypeSupported('video/webm'); // true
-MediaRecorder.isTypeSupported('video/mp4');  // false
+MediaRecorder.isTypeSupported('video/mp4'); // false
 ```
 
 At the time of writing, the supported codecs are:
@@ -197,7 +197,7 @@ If not specified, all media captured will be returned in a single Blob.
 
 ## Polyfills
 
-At the time of writing, the whole `MediaRecorder` API is *bleeding edge* and support for [`HTMLMediaElement.captureStream()`] is rare.
+At the time of writing, the whole `MediaRecorder` API is _bleeding edge_ and support for [`HTMLMediaElement.captureStream()`] is rare.
 But there's a way to make it work.
 
 For capturing audio stream, we can use the [Web Audio API].
@@ -232,7 +232,6 @@ function polyfillAudio(mediaElement) {
   return audioStream;
 }
 
-
 // video polyfill
 
 function polyfillVideo(mediaElement) {
@@ -256,7 +255,7 @@ function renderVideoFrame(canvas, videoElement) {
 }
 ```
 
-Now we need to do combine the 2 streams and *voila!*
+Now we need to do combine the 2 streams and _voila!_
 
 ```js
 const stream = new MediaStream([
@@ -286,7 +285,6 @@ Also, adding it isn't an easy procedure, nor is it simple - it's doable, but "ta
 When capturing videos served using [DASH Adaptive Streaming], changing the resolution causes frame corruption.
 I haven't yet figured out a way to sole this problem, but using the `<canvas />` polyfill seems to work just fine.
 
-
 Here's a demo video highlighting the 2 problems.
 
 <video class="center-block" src="{{site.baseurl}}/media/2017-09-02-mediarecorder/media.webm" controls></video>
@@ -301,17 +299,16 @@ But for today, it is more or less an niche experimental toy.
 
 At this point, it'd be good to have some [demos] and the source [code].
 
-
-[`MediaRecorder`]: https://developer.mozilla.org/docs/Web/API/MediaRecorder
+[`mediarecorder`]: https://developer.mozilla.org/docs/Web/API/MediaRecorder
 [media stream]: https://developer.mozilla.org/docs/Web/API/MediaStream
 [`<canvas />`]: https://developer.mozilla.org/docs/Web/API/HTMLCanvasElement
-[`CanvasCaptureMediaStream`]: https://developer.mozilla.org/docs/Web/API/CanvasCaptureMediaStream
-[`MediaRecorder.isTypeSupported()`]: https://developer.mozilla.org/docs/Web/API/MediaRecorder/isTypeSupported
-[`HTMLMediaElement.captureStream()`]: https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream
-[Web Audio API]: https://developer.mozilla.org/docs/Web/API/Web_Audio_API
-[Matroska]: https://en.wikipedia.org/wiki/Matroska
-[Matroska format]: https://www.matroska.org/technical/specs/index.html
-[DASH Adaptive Streaming]: https://developer.mozilla.org/docs/Web/HTML/DASH_Adaptive_Streaming_for_HTML_5_Video
+[`canvascapturemediastream`]: https://developer.mozilla.org/docs/Web/API/CanvasCaptureMediaStream
+[`mediarecorder.istypesupported()`]: https://developer.mozilla.org/docs/Web/API/MediaRecorder/isTypeSupported
+[`htmlmediaelement.capturestream()`]: https://developer.mozilla.org/docs/Web/API/HTMLMediaElement/captureStream
+[web audio api]: https://developer.mozilla.org/docs/Web/API/Web_Audio_API
+[matroska]: https://en.wikipedia.org/wiki/Matroska
+[matroska format]: https://www.matroska.org/technical/specs/index.html
+[dash adaptive streaming]: https://developer.mozilla.org/docs/Web/HTML/DASH_Adaptive_Streaming_for_HTML_5_Video
 [electron apps]: https://electron.atom.io/apps
 [demos]: {{site.baseurl}}/gists/2017-09-04-mediarecorder
 [code]: https://github.com/zhirzh/zhirzh.github.io/blob/master/gists/2017-09-04-mediarecorder
