@@ -1,14 +1,7 @@
 title: "TryCatch"
-url: http://lanyon.getpoole.com
 baseurl: ""
 
-permalink: pretty
+permalink: :path
 paginate: 5
 
 plugins: [jekyll-paginate]
-
-author:
-  name: Shirsh Zibbu
-  email: zibbu.shirsh@gmail.com
-  github: zhirzh
-  resume: resume

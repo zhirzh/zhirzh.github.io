@@ -25,4 +25,4 @@ To keep things short, let's just say that...
 ---
 
 ## Contact
-You can mail me on *{{ site.author.email }}*.
+You can mail me on *zibbu.shirsh@gmail.com*.
